@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delírios de uma mente perturbada</title>
+    <style>
+        :root {
+            --bg-color: #121214;
+            --card-bg: #1e1e24;
+            --accent-color: #8a2be2;
+            --text-color: #e1e1e6;
+            --subtext-color: #a8a8b3;
+            --border-color: #323238;
+            --warning-color: #ffaa00;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 650px;
+            width: 100%;
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+            border: 1px solid var(--border-color);
+            box-sizing: border-box;
+        }
+
+        h1, h2, h3 {
+            color: #fff;
+            text-align: center;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--subtext-color);
+            font-size: 0.95rem;
+            margin-bottom: 25px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .soad-screen {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 400px;
+        }
+
+        .soad-quote {
+            text-align: center;
+            color: var(--accent-color);
+            margin: 20px 0;
+            font-size: 1.5rem;
+            line-height: 1.4;
+        }
+
+        .soad-quote em {
+            font-style: italic;
+        }
+
+        .soad-quote strong {
+            font-weight: bold;
+            color: #fff;
+            display: block;
+            margin-top: 10px;
+            font-size: 1.4rem;
+        }
+
+        .section-header {
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+            margin-top: 35px;
+            margin-bottom: 15px;
+            color: var(--accent-color);
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .creator-answer {
+            color: var(--subtext-color);
+            font-size: 0.9rem;
+            font-style: italic;
+            margin-top: -4px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        input[type="text"], input[type="number"], textarea, select {
+            width: 100%;
+            padding: 12px;
+            background: #121214;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: #fff;
+            box-sizing: border-box;
+            font-size: 1rem;
+        }
+
+        textarea {
+            height: 90px;
+            resize: vertical;
+        }
+
+        .scale-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        input[type="range"] {
+            flex-grow: 1;
+            accent-color: var(--accent-color);
+        }
+
+        .scale-value {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: var(--accent-color);
+            width: 30px;
+            text-align: right;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: var(--accent-color);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background: #7a22cb;
+        }
+
+        .btn-secondary {
+            background: #323238;
+            color: #e1e1e6;
+        }
+
+        .btn-secondary:hover {
+            background: #44444e;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .button-group button {
+            margin-top: 0;
+            flex: 1;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .feedback-card {
+            background: #18181c;
+            padding: 15px;
+            border-left: 4px solid var(--accent-color);
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+
+        .feedback-card h4 {
+            margin: 0 0 5px 0;
+            color: #fff;
+        }
+
+        .feedback-card p {
+            margin: 5px 0;
+            font-size: 0.95rem;
+            color: var(--subtext-color);
+        }
+
+        .trigger-warning-card {
+            background: #231b15;
+            border: 1px solid var(--warning-color);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        .trigger-warning-card h3 {
+            color: var(--warning-color);
+            margin-top: 0;
+        }
+
+        .trigger-warning-card p {
+            line-height: 1.5;
+            color: #e1e1e6;
+        }
+
+        .unlocked-story-card {
+            background: #181222;
+            border: 1px solid var(--accent-color);
+            padding: 25px;
+            border-radius: 8px;
+            line-height: 1.8;
+            color: #e1e1e6;
+        }
+
+        .unlocked-story-card h3 {
+            color: var(--accent-color);
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .unlocked-story-card p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .unlocked-story-card blockquote {
+            margin: 20px 0;
+            padding: 10px 15px;
+            border-left: 3px solid var(--accent-color);
+            font-style: italic;
+            background: #1e182a;
+        }
+
+        .unlocked-section {
+            background: #231b2e;
+            border: 1px solid var(--accent-color);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 25px;
+        }
+
+        .failed-section {
+            background: #2a181a;
+            border: 1px solid #ff5555;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 25px;
+            text-align: center;
+            color: #ff8888;
+        }
+
+        .test-tag {
+            color: #ff5555;
+            font-size: 0.85rem;
+            display: block;
+            margin-top: 5px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .wrong-text {
+            color: #ff5555;
+            font-weight: bold;
+            margin-top: 5px;
+            display: block;
+        }
+
+        .final-greeting {
+            text-align: center;
+            margin-top: 35px;
+            padding: 20px;
+            background: #1a1a1e;
+            border-radius: 8px;
+            border: 1px dashed var(--accent-color);
+        }
+
+        .final-greeting p {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: #e1e1e6;
+        }
+
+        .footer-signature {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-poem {
+            font-style: italic;
+            color: #c792ea;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+
+        .footer-babi {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+    </style>
+</head>
+<body>
+
+<!-- TELA 0: INTRODUÇÃO -->
+<div id="step-0" class="container text-center">
+    <h1>Bem-vindo(a) ao meu delírio coletivo.</h1>
+    <p class="subtitle" style="font-size: 1.1rem; margin-top: 20px;">Vamos descobrir se conhece essa mente perturbada?</p>
+    <button onclick="goToStep1()" style="margin-top: 30px;">Sim, vamos lá!</button>
+</div>
+
+<!-- TELA 1: IDENTIFICAÇÃO -->
+<div id="step-1" class="container hidden">
+    <h1>Delírios de uma mente perturbada</h1>
+    <p class="subtitle">Um espaço de reflexão, troca e reconexão.</p>
+    <h3>Para começar, me diga quem é você:</h3>
+    <div class="form-group">
+        <label for="userName">Seu Nome e/ou Apelido:</label>
+        <input type="text" id="userName" placeholder="Ex: Gabriel (Biel) ou Ana">
+    </div>
+    <button onclick="startQuiz()">Iniciar Quiz</button>
+</div>
+
+<!-- TELA 2: PERGUNTAS -->
+<div id="step-2" class="container hidden">
+    <form id="quizForm" action="https://formspree.io/f/SEU_CODIGO_AQUI" method="POST">
+        
+        <input type="hidden" name="Nome_do_Amigo" id="hiddenUserName">
+
+        <div class="section-header">Parte 1: O Quanto Você Me Conhece (0 a 10)</div>
+
+        <div class="form-group"><label>1. Quanto você acha que construir uma vida com o Gabriel representa como realização para mim?</label><div class="scale-container"><input type="range" name="Q1_Gabriel" id="q1" min="0" max="10" value="5" oninput="updateVal('q1', 'val1')"><span id="val1" class="scale-value">5</span></div></div>
+        <div class="form-group"><label>2. Quanto eu consigo manter viva a minha parte artística (escrever, ler, cantar)?</label><div class="scale-container"><input type="range" name="Q2_Arte" id="q2" min="0" max="10" value="5" oninput="updateVal('q2', 'val2')"><span id="val2" class="scale-value">5</span></div></div>
+        <div class="form-group"><label>3. O quanto eu continuo tentando me entender, compreender o que sinto e o que quero?</label><div class="scale-container"><input type="range" name="Q3_Entender" id="q3" min="0" max="10" value="5" oninput="updateVal('q3', 'val3')"><span id="val3" class="scale-value">5</span></div></div>
+        <div class="form-group"><label>4. Qual a força da minha relação com a leitura e o universo dos livros?</label><div class="scale-container"><input type="range" name="Q4_Leitura" id="q4" min="0" max="10" value="5" oninput="updateVal('q4', 'val4')"><span id="val4" class="scale-value">5</span></div></div>
+        <div class="form-group"><label>5. Como você avalia minha conquista de "continuar aqui, apesar de tudo"?</label><div class="scale-container"><input type="range" name="Q5_Continuar" id="q5" min="0" max="10" value="5" oninput="updateVal('q5', 'val5')"><span id="val5" class="scale-value">5</span></div></div>
+        <div class="form-group"><label>6. Como você vê a construção da minha vida adulta própria até aqui?</label><div class="scale-container"><input type="range" name="Q6_VidaAdulta" id="q6" min="0" max="10" value="5" oninput="updateVal('q6', 'val6')"><span id="val6" class="scale-value">5</span></div></div>
+        <div class="form-group"><label>7. Quanto eu consegui lapidar minha própria identidade e impor meus limites?</label><div class="scale-container"><input type="range" name="Q7_Identidade" id="q7" min="0" max="10" value="5" oninput="updateVal('q7', 'val7')"><span id="val7" class="scale-value">5</span></div></div>
+        <div class="form-group"><label>8. Quanto eu consegui NÃO abandonar a garota que eu era (Inuyasha, escrita, estilo gótico e romântico)?</label><div class="scale-container"><input type="range" name="Q8_Essencia" id="q8" min="0" max="10" value="5" oninput="updateVal('q8', 'val8')"><span id="val8" class="scale-value">5</span></div></div>
+        <div class="form-group"><label>9. De 0 a 10, qual é a minha capacidade atual de amar profundamente?</label><div class="scale-container"><input type="range" name="Q9_Amar" id="q9" min="0" max="10" value="5" oninput="updateVal('q9', 'val9')"><span id="val9" class="scale-value">5</span></div></div>
+        <div class="form-group"><label>10. De 0 a 10, o quanto você acha que hoje eu consigo confiar e me abrir com as pessoas?</label><div class="scale-container"><input type="range" name="Q10_Confianca" id="q10" min="0" max="10" value="5" oninput="updateVal('q10', 'val10')"><span id="val10" class="scale-value">5</span></div></div>
+
+        <div class="section-header">Parte 2: Momento Descontraído (Pontos Extras)</div>
+
+        <div class="form-group">
+            <label style="color: var(--accent-color);">★ PERGUNTA BÔNUS (VALENDO 1,5 PONTO): Qual é a minha sexualidade?</label>
+            <select name="E_Sexualidade" id="e_sexualidade">
+                <option value="">Selecione...</option>
+                <option value="hetero">Heterossexual</option>
+                <option value="bissexual">Bissexual</option>
+                <option value="pansexual">Pansexual</option>
+                <option value="assexual">Assexual</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label style="color: var(--accent-color);">★ PERGUNTA BÔNUS (VALENDO 1,0 PONTO): Qual é a minha BANDA FAVORITA de todos os tempos?</label>
+            <input type="text" name="E_Banda" id="e_banda" placeholder="Digite o nome da banda...">
+        </div>
+
+        <div class="form-group">
+            <label style="color: var(--accent-color);">★ PERGUNTA BÔNUS (VALENDO 1,0 PONTO): Qual é o meu ANIME FAVORITO de todos os tempos?</label>
+            <input type="text" name="E_Anime" id="e_anime" placeholder="Digite o nome do anime...">
+        </div>
+
+        <div class="form-group">
+            <label>Qual é meu signo? (0,5pt)</label>
+            <select name="E_Signo" id="e_signo">
+                <option value="">Selecione...</option>
+                <option value="aries">Áries</option>
+                <option value="touro">Touro</option>
+                <option value="gemeos">Gêmeos</option>
+                <option value="cancer">Câncer</option>
+                <option value="leao">Leão</option>
+                <option value="virgem">Virgem</option>
+                <option value="libra">Libra</option>
+                <option value="escorpiao">Escorpião</option>
+                <option value="sagitario">Sagitário</option>
+                <option value="capricornio">Capricórnio</option>
+                <option value="aquario">Aquário</option>
+                <option value="peixes">Peixes</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Em que ano eu nasci? (0,5pt)</label>
+            <input type="number" name="E_Ano" id="e_ano" placeholder="Ex: 1999">
+        </div>
+
+        <div class="form-group">
+            <label>Qual código do The Sims é mais utilizado por mim? (0,5pt)</label>
+            <input type="text" name="E_TheSims" id="e_thesims" placeholder="Digite o macete/código...">
+        </div>
+
+        <div class="form-group">
+            <label>Na minha página do "Skoob", qual é meu livro favorito, conforme meu feedback? (0,5pt)</label>
+            <input type="text" name="E_Skoob" id="e_skoob" placeholder="Nome do livro...">
+        </div>
+
+        <div class="form-group"><label>Violetta ou Rebeldes? (0,5pt)</label><select name="E_ViolettaRebeldes" id="e_violettarebeldes"><option value="">Selecione...</option><option value="violetta">Violetta</option><option value="rebeldes">Rebeldes</option><option value="ambos">Ambos</option></select></div>
+
+        <div class="form-group">
+            <label>Qual eu prefiro? (0,5pt)</label>
+            <select name="E_Preferencias" id="e_preferencias">
+                <option value="">Selecione...</option>
+                <option value="mexicana">Novela mexicana</option>
+                <option value="brasileira">Novela brasileira</option>
+                <option value="dorama">Dorama</option>
+                <option value="anime">Anime</option>
+                <option value="romance">Livros de romance e romantasia</option>
+                <option value="academicos">Livros acadêmicos</option>
+                <option value="todas">Todas as opções estão corretas</option>
+                <option value="uma_incorreta">Apenas uma opção está incorreta</option>
+            </select>
+        </div>
+
+        <div class="form-group"><label>Kpop ou Funk? (0,5pt)</label><select name="E1_KpopFunk" id="e1"><option value="">Selecione...</option><option value="kpop">Kpop</option><option value="funk">Funk</option></select></div>
+        <div class="form-group"><label>Rock ou Kpop? (0,5pt)</label><select name="E2_RockKpop" id="e2"><option value="">Selecione...</option><option value="rock">Rock</option><option value="kpop">Kpop</option><option value="ambos">Ambos</option></select></div>
+        <div class="form-group"><label>Metal ou Eletrônica? (0,5pt)</label><select name="E3_MetalEletronica" id="e3"><option value="">Selecione...</option><option value="metal">Metal</option><option value="eletronica">Eletrônica</option></select></div>
+        <div class="form-group"><label>Metal ou Goth Metal? (0,5pt)</label><select name="E4_MetalGoth" id="e4"><option value="">Selecione...</option><option value="metal">Metal</option><option value="goth">Goth Metal</option><option value="ambos">Ambos</option></select></div>
+        <div class="form-group"><label>G-Dragon ou Hyuna? (0,5pt)</label><select name="E5_GDHyuna" id="e5"><option value="">Selecione...</option><option value="gdragon">G-Dragon</option><option value="hyuna">Hyuna</option></select></div>
+        <div class="form-group"><label>Kim Taehyung ou B.o.B? (0,5pt)</label><select name="E6_TaeBob" id="e6"><option value="">Selecione...</option><option value="tae">Kim Taehyung</option><option value="bob">B.o.B</option></select></div>
+        <div class="form-group"><label>Ruby Rose ou Rhea? (0,5pt)</label><select name="E7_RubyRhea" id="e7"><option value="">Selecione...</option><option value="jura">Jura?? Amada…</option><option value="ruby">Ruby Rose</option><option value="rhea">Rhea</option></select></div>
+        <div class="form-group"><label>Amor Doce ou Habbo? (0,5pt)</label><select name="E8_AmorHabbo" id="e8"><option value="">Selecione...</option><option value="amordoce">Amor Doce</option><option value="habbo">Habbo</option><option value="ambos">Ambos</option></select></div>
+        <div class="form-group"><label>Castiel ou Ken (Amor Doce)? (0,5pt)</label><select name="E9_CastielKen" id="e9"><option value="">Selecione...</option><option value="castiel">Castiel</option><option value="ken">Ken</option></select></div>
+
+        <div class="section-header">Parte 3: Nossas Lembranças (Valendo 0,2pt cada)</div>
+
+        <div class="form-group">
+            <label>Você se considera importante para mim? Justifique sua resposta:</label>
+            <textarea name="Txt_Importante" id="txt_importante" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>O que te faz lembrar da gente? Qual é a lembrança mais significativa para você? (justifique sua resposta)</label>
+            <textarea name="Txt_Lembranca" id="txt_lembranca" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>O que você falaria para mim que ainda não teve oportunidade de dizer e por quê?</label>
+            <textarea name="Txt_Falaria" id="txt_falaria" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>O que você percebe que mudou na minha forma de amar e confiar nas pessoas ao longo dos anos?</label>
+            <textarea name="Txt_Confianca" id="txt1" placeholder="Sua visão sobre minha forma de me relacionar..." required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Qual é a maior lição que você acha que eu carrego sobre a minha história e o meu passado?</label>
+            <textarea name="Txt_Licao" id="txt2" placeholder="Sua resposta por extenso..." required></textarea>
+        </div>
+
+        <div class="section-header">Parte 4: Sobre Nós & Reflexões (Sem pontuação)</div>
+
+        <div class="form-group">
+            <label>Se fossemos um filme ou personagens, quem ou qual seríamos?</label>
+            <textarea name="Txt_Filme" id="txt_filme"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>O que eu mais gosto em você? Consegue dizer?</label>
+            <textarea name="Txt_GostoEmVoce" id="txt_gostoemvoce"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>O que te faz pensar/lembrar da gente?</label>
+            <textarea name="Txt_PensarGente" id="txt_pensargente"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Qual momento você decidiu que eu era uma boa pessoa, apesar da loucura aparente?</label>
+            <textarea name="Txt_BoaPessoa" id="txt_boapessoa"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Você se lembra como nos conhecemos? Se sim, como?</label>
+            <textarea name="Txt_Conhecemos" id="txt_conhecemos"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Se eu fosse uma flor, qual seria?</label>
+            <input type="text" name="Txt_Flor" id="txt_flor" placeholder="Qual flor combina comigo?">
+        </div>
+
+        <div class="form-group">
+            <label>Como você me definiria como pessoa?</label>
+            <textarea name="Txt_Definiria" id="txt_definiria"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>O que acha da gente?</label>
+            <textarea name="Txt_Acha" id="txt_acha"></textarea>
+        </div>
+
+        <div class="section-header">Parte 5: Minha vez de saber sobre você (Sem pontuação)</div>
+
+        <div class="form-group">
+            <label>Sua cor favorita?</label>
+            <input type="text" name="Txt_CorFavorita" id="txt_corfavorita" placeholder="Ex: Roxo, Preto...">
+        </div>
+
+        <div class="form-group">
+            <label>Filmes/Séries favoritos?</label>
+            <textarea name="Txt_FilmesSeries" id="txt_filmesseries" placeholder="Quais produções mais marcaram você?"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Música favorita?</label>
+            <input type="text" name="Txt_MusicaFavorita" id="txt_musicafavorita" placeholder="Qual música fala com a sua alma?">
+        </div>
+
+        <div class="form-group">
+            <label>Frase favorita?</label>
+            <textarea name="Txt_FraseFavorita" id="txt_frasefavorita" placeholder="Uma citação que você carrega consigo..."></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Qual foi a parte favorita da sua infância?</label>
+            <textarea name="Txt_Infancia" id="txt_infancia" placeholder="Uma lembrança doce do passado..."></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>O que te define como pessoa?</label>
+            <textarea name="Txt_OQueTeDefine" id="txt_oquetedefine" placeholder="Sua essência, seus valores..."></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Se você fosse um animal, qual seria? Por quê?</label>
+            <textarea name="Txt_AnimalEPorQue" id="txt_animal" placeholder="Qual animal você seria e por qual motivo?"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>O que você diria para si mesmo se encontrasse seu eu do passado?</label>
+            <span class="creator-answer">Resposta da criadora do quiz: Seja sincero (a) com seu coração.</span>
+            <textarea name="Txt_EuDoPassado" id="txt_eudopassado" placeholder="Seus conselhos para quem você já foi..."></textarea>
+        </div>
+
+        <button type="button" onclick="submitQuiz()">Enviar Respostas</button>
+    </form>
+</div>
+
+<!-- TELA 3: TRANSIÇÃO SOAD -->
+<div id="step-soad" class="container hidden soad-screen">
+    <div class="soad-quote">
+        <em>"You see? My pain is real?"</em>
+        <strong>"Você vê? Minha dor é real?"</strong>
+    </div>
+    <p class="subtitle" style="margin-bottom: 40px;">— System Of A Down (Ego Brain)</p>
+    <button onclick="showResults()">Ver Meus Resultados</button>
+</div>
+
+<!-- TELA 4: RESULTADOS E JUSTIFICATIVAS -->
+<div id="step-results" class="container hidden">
+    <h2>Obrigada por responder, <span id="displayUser"></span>!</h2>
+    <span id="testNotice" class="test-tag hidden">(Modo Teste - Resposta não contabilizada)</span>
+    
+    <p class="subtitle" style="margin-top: 15px;">Sua pontuação total estimada foi: <strong id="scoreDisplay"></strong> / 112,1 pts</p>
+
+    <h3>Aqui estão as minhas respostas e justificativas reais:</h3>
+
+    <div class="feedback-card">
+        <h4>1. Vida com o Gabriel (Nota Real: 8,5/10)</h4>
+        <p><strong>Justificativa:</strong> Estamos juntos desde 2018 e construímos uma história sólida e de grande parceria.</p>
+    </div>
+    <div class="feedback-card">
+        <h4>2. Parte Artística (Nota Real: 6,5/10)</h4>
+        <p><strong>Justificativa:</strong> Escrevo, leio e canto desde muito nova, mas é um sonho que por muitas vezes deixo em segundo plano.</p>
+    </div>
+    <div class="feedback-card">
+        <h4>3. Tentar se Entender (Nota Real: 8/10)</h4>
+        <p><strong>Justificativa:</strong> Continuo tentando compreender quem sou, o que sinto e os caminhos que combinam comigo.</p>
+    </div>
+    <div class="feedback-card">
+        <h4>4. Relação com a Leitura (Nota Real: 9/10)</h4>
+        <p><strong>Justificativa:</strong> A leitura se tornou uma das partes mais importantes da minha vida, com histórias e personagens que mexem comigo.</p>
+    </div>
+    <div class="feedback-card">
+        <h4>5. Continuar Aqui (Nota Real: 6,8/10)</h4>
+        <p><strong>Justificativa:</strong> Reconheço a vitória de continuar aqui, mas sem transformar isso em algo maior do que parece para mim.</p>
+    </div>
+    <div class="feedback-card">
+        <h4>6. Vida Adulta Própria (Nota Real: 4,5/10)</h4>
+        <p><strong>Justificativa:</strong> Morar com a sogra/cunhada hoje não é visto por mim como conquista, mas como uma condição temporária.</p>
+    </div>
+    <div class="feedback-card">
+        <h4>7. Identidade Própria (Nota Real: 8,5/10)</h4>
+        <p><strong>Justificativa:</strong> Tenho estética e identidade próprias, mas ainda estou aprendendo a impor limites e vencer o medo.</p>
+    </div>
+    <div class="feedback-card">
+        <h4>8. Não Abandonar Quem Eu Era (Nota Real: 10/10)</h4>
+        <p><strong>Justificativa:</strong> A garota que gosta de Inuyasha, histórias dramáticas, coisas góticas e românticas ainda vive inteira em mim.</p>
+    </div>
+    <div class="feedback-card">
+        <h4>9. Capacidade de Amar (Nota Real: 7,5/10)</h4>
+        <p><strong>Justificativa:</strong> Já foi nota 10 por 20 anos. Hoje dou 7,5 porque precisei criar proteções para me preservar.</p>
+    </div>
+    <div class="feedback-card">
+        <h4>10. Confiança em Outros (Nota Real: Variada / Processo)</h4>
+        <p><strong>Justificativa:</strong> Aprendi a me fechar de novo após ser vulnerável com as pessoas erradas, reconstruindo meu discernimento.</p>
+    </div>
+
+    <div class="section-header">Sobre a sua Importância</div>
+    <div class="feedback-card">
+        <h4>Você se considera importante para mim?</h4>
+        <p><strong>Minha Resposta:</strong> Sim, você é alguém de suma importância para mim. Sou muita grata por ter você em minha vida – por mais que eu não saiba expressar da melhor maneira possível, saiba que você é IMPORTANTE: você importa para mim, você é VISTO por mim. Eu amo você!</p>
+    </div>
+
+    <div class="section-header">Gabarito dos Pontos Extras</div>
+    <div class="feedback-card">
+        <p>• <strong>Sexualidade:</strong> Pansexual ou Bissexual</p>
+        <p>• <strong>Banda Favorita:</strong> System Of a Down</p>
+        <div id="bandFeedback"></div>
+        <p>• <strong>Anime Favorito:</strong> Inuyasha</p>
+        <div id="animeFeedback"></div>
+    </div>
+    <div class="feedback-card">
+        <p>• <strong>Meu Signo:</strong> Peixes</p>
+        <p>• <strong>Ano que Nasci:</strong> 2001</p>
+        <p>• <strong>Código do The Sims:</strong> motherlode</p>
+        <p>• <strong>Livro Favorito no Skoob:</strong> O Pacto de Dálila</p>
+        <p>• <strong>Violetta ou Rebeldes?</strong> Ambos</p>
+        <div id="prefFeedback"></div>
+        <p>• <strong>Kpop ou Funk?</strong> Kpop</p>
+        <p>• <strong>Rock ou Kpop?</strong> Ambos</p>
+        <p>• <strong>Metal ou Eletrônica?</strong> Metal</p>
+        <p>• <strong>Metal ou Goth Metal?</strong> Ambos</p>
+        <p>• <strong>G-Dragon ou Hyuna?</strong> G-Dragon</p>
+        <p>• <strong>Kim Taehyung ou B.o.B?</strong> Kim Taehyung</p>
+        <p>• <strong>Ruby Rose ou Rhea?</strong> Jura?? Amada…</p>
+        <p>• <strong>Amor Doce ou Habbo?</strong> Ambos</p>
+        <p>• <strong>Castiel ou Ken?</strong> Castiel, sem sombras de dúvidas! <br><small><em>(Se marcou Ken: "D-docete… quer c-comer biscoito? 🍪")</em></small></p>
+    </div>
+
+    <div class="section-header">Reflexão sobre o Passado</div>
+    <div class="feedback-card">
+        <h4>O que eu diria para o meu eu do passado?</h4>
+        <p><strong>Minha Resposta:</strong> Seja sincero (a) com seu coração. 🖤</p>
+    </div>
+
+    <!-- AVISO DE GATILHO E CONVITE PARA A CARTA -->
+    <div id="pdfWarningSection" class="trigger-warning-card hidden">
+        <h3>✨ Parabéns candidato, sua nota foi excelente! ✨</h3>
+        <p>Você conquistou o privilégio de saber mais sobre a minha história.</p>
+        <p style="margin-top: 15px;"><strong>Aviso, gatilho:</strong><br>
+        Se você não está em condições psicológicas para ler a mensagem a seguir, oriento a não prosseguir com a leitura.</p>
+        
+        <div class="button-group">
+            <button type="button" onclick="openStoryPage()">Prosseguir</button>
+            <button type="button" class="btn-secondary" onclick="closeTriggerWarning()">Não prosseguir</button>
+        </div>
+    </div>
+
+    <!-- MENSAGEM SE CONSEGUIR (OUTRAS PESSOAS) -->
+    <div id="generalHighSection" class="unlocked-section hidden">
+        <h3>✨ Que incrível! ✨</h3>
+        <p>Sua pontuação foi super alta! É muito gratificante ver o quanto você me conhece, me acompanha e presta atenção em mim. Muito obrigada por fazer parte do meu caminho e por me enxergar de verdade! 🤍</p>
+    </div>
+
+    <!-- MENSAGEM SE NÃO ATINGIR -->
+    <div id="failedSection" class="failed-section hidden">
+        <h3>Infelizmente, sua pontuação não foi atingida.</h3>
+        <p>Reveja seus conceitos e bora conversar mais! 🙂‍↔️</p>
+    </div>
+
+    <!-- SAUDAÇÃO FINAL -->
+    <div class="final-greeting">
+        <p>Obrigada por chegar até aqui!<br>
+        Sua paciência, zelo e vontade aprender sobre a gente, é muito significativo, pois você é algo muito importante na minha vida.<br>
+        Te amo, você… ❤️‍🩹</p>
+    </div>
+
+    <!-- FINALIZAÇÃO COM A ESTROFE E ASSINATURA -->
+    <div class="footer-signature">
+        <div class="footer-poem">
+            "O amor não reside no perfeito ou no idealizado,<br>
+            mas na coragem de encarar as sombras juntos,<br>
+            na lealdade que permanece quando a névoa é densa,<br>
+            e na beleza de sermos exatamente quem somos."
+        </div>
+        <div class="footer-babi">
+            bjs Babi 🖤
+        </div>
+    </div>
+</div>
+
+<!-- TELA DEDICADA EXCLUSIVA PARA A CARTA DA HISTÓRIA -->
+<div id="step-story-page" class="container hidden">
+    <div class="unlocked-story-card">
+        <h3>✨ Essa sou eu, crua ✨</h3>
+        <p>Essa é um pouco da minha história, essa sou eu, crua.</p>
+        <p>Eu passei anos da minha vida me culpando por tudo isso. Hoje, eu sei que eu não pedi para que nada disso acontecesse, eu era apenas uma criança. Mas... ainda dói. Ainda não consigo esquecer. Ainda me faz não confiar mais, não me abrir mais.</p>
+        <p>Em 2017, também foi a época em que disse aos meus pais que era bissexual, o que fez eu e minha mãe termos uma discussão calorosa, onde ela chegou a me ameaçar em me expulsar de casa se eu aparecesse com alguma garota. E todos meus amigos masculinos que viam na minha casa depois daquilo, ela me jogava para eles, como se eu fosse uma roupa que qualquer um pudesse usar, isso sendo que antes eu não poderias namorar até os meus 18 anos.</p>
+        <p>Isso tudo ocorreu no mesmo ano: eu me assumir, me apaixonar pela primeira vez, mas ter medo dos meus sentimentos e me afastar do Gabriel, pois não me sentia pronta... e depois, isso.</p>
+        <p>Na adolescência, em 2017, antes de eu começar a namorar com o Gabriel, eu me envolvi com um garoto não namorei, foi uma ficada, aquelas coisas de adolescente. Ele era colega do Biel. Eu estava solteira, estava todo mundo solteiro. Mas eu tinha um apego emocional com esse menino. Por uns tempos, considerei-o meu melhor amigo. Parecia que ele me conhecia como ninguém e eu sentia que ele poderia amar até minhas partes mais podres. Ele parecia gostar e entender. Com o tempo, isso chamou minha atenção e eu dei uma chance para ele. Acabamos ficando algumas vezes, mesmo eu ainda gostando do Biel.</p>
+        <p>No Natal de 2017, saí com dois amigos. Um deles era esse menino. Estávamos numa casa de um colega nosso, brincando, rindo e conversando. Uma amiga ligou dizendo para irmos à casa dela. No caminho, ele falou que queria passar na casa dele rapidamente para beber água. Eu entrei porque os dois entraram e eu não ia ficar na rua sozinha.</p>
+        <p>Foi o pior erro que eu cometi. No quarto, ele começou a agir de forma estranha, querendo me beijar, me pegar e querendo ir além comigo. Eu não queria. Eu só ficava de beijinho. Desci as escadas e encontrei o outro amigo na sala, jogando videogame. Ele perguntou: "Ué... já acabou? Foi tão rápido." Eu não entendia o que estava acontecendo.</p>
+        <p>Eles começaram a me pressionar. Disseram que eu estava fazendo "cu doce", que eu deveria ficar logo com ele, que eu confiava nele, que era mais fácil fazer aquelas coisas com um amigo. Depois veio a ameaça de que, se eu não fizesse nada com ele, teria que fazer com os dois. Eu congelei.</p>
+        <p>O portão estava sem chave. A porta estava trancada. Quando pisquei, eu já estava no quarto. O outro estava na porta, sentado, impedindo que eu saísse, com o celular na mão. Havia um colchão no chão que antes não estava ali.</p>
+        <p>Eu tive medo do que aconteceria se não fizesse nada. Então fiz. Eu me senti coagida, com medo, insegura, suja. Depois eles me levaram para casa como se nada tivesse acontecido, puxando assunto normalmente, como se aquilo fosse algo natural.</p>
+        <p>Naquela noite, 25 de dezembro de 2017, quando cheguei em casa e tomei meu banho, desabei. Comecei a chorar, sentindo-me imunda, sentindo-me suja. Por muito tempo me culpei, porque eu entrei naquela casa. Eu poderia ter esperado do lado de fora ou ido diretamente para a casa da minha amiga. Mas hoje eu sei: eu não pedi para que aquilo acontecesse.</p>
+        <p>Antes disso, em 2012, quando eu tinha apenas 11 anos, fui a uma festa à noite na minha escola antiga, Cavariani, com uma amiga que conhecia desde o segundo ano do fundamental. Ela namorava um rapaz de 18 anos. Eu odiava aquilo e morria de medo dele. Estávamos sentados perto um do outro quando um rapaz da mesma idade que ele começou a mexer comigo. Eu fingi que não era comigo, porque aquilo não era apropriado e eu estava com medo.</p>
+        <p>Ele insistia em saber meu nome, minha idade e se eu estudava ali. Eu não respondi. Minha amiga respondeu por mim, achando que eu estava tímida. Saí dali desconfortável e fui ao banheiro. Ao sair, fui encurralada na parede por ele e ele me arrancou um beijo à força. Para escapar, mordi a língua dele e saí correndo.</p>
+        <p>Depois daquele dia, ele passou quase dois anos me seguindo. Sempre que eu saía da escola, ele estava lá, me esperando, à espreita, me infernizando nas ruas. Por conta dele, passei alguns anos com dificuldade para confiar em garotos, principalmente nos mais velhos.</p>
+        <p>Então o Biel entrou na minha vida. Quando nos aproximamos em 2017, ele me fez confiar nas pessoas de novo, me abrir de novo. Mas, por conta disso, acabei perdendo a referência de em quem poderia ou não confiar e passei a confiar em qualquer um que se aproximasse de mim. Então aquilo no Natal aconteceu, e eu me fechei outra vez.</p>
+        <p>Essa é um pouco da minha história. Essa sou eu, crua.</p>
+        <blockquote>"Eu sou ela, ela sou eu. Ela é a minha verdade."</blockquote>
+        <p>Domáya não é apenas uma personagem que eu inventei para fugir de quem sou. Ela é uma parte de mim que encontrou um nome, uma estética e uma forma de existir. Eu não preciso tornar a minha história bonita para ela ter valor.</p>
+        <p>Por mais que tudo isso e muito mais tenha acontecido na minha história, eu não deixo me abater. Apesar dos pesares, me fez ser quem sou hoje. Hoje, me enxergo de uma forma diferente: ferida, mas não morta. Ainda respiro, e continuo a nadar. E espero que você leitor que chegou até aqui saiba que você não é um caso perdido, você está tecendo suas linhas. A cada tropeço, uma chance de se tornar sempre melhor.</p>
+        
+        <button type="button" class="btn-secondary" style="margin-top: 25px;" onclick="closeStoryPage()">← Voltar para o Quiz</button>
+    </div>
+</div>
+
+<script>
+    let userName = "";
+    let isTestUser = false;
+    let finalTotalScore = 0;
+
+    function updateVal(inputId, valId) {
+        document.getElementById(valId).innerText = document.getElementById(inputId).value;
+    }
+
+    function goToStep1() {
+        document.getElementById('step-0').classList.add('hidden');
+        document.getElementById('step-1').classList.remove('hidden');
+    }
+
+    function startQuiz() {
+        const nameInput = document.getElementById('userName').value.trim();
+        if(!nameInput) {
+            alert("Por favor, digite seu nome ou apelido para continuar.");
+            return;
+        }
+        
+        userName = nameInput;
+        const lowerName = userName.toLowerCase();
+
+        const testWords = ['teste', 'test', 'eu', 'domáya', 'domaya'];
+        if (testWords.includes(lowerName)) {
+            isTestUser = true;
+        }
+
+        document.getElementById('hiddenUserName').value = userName;
+        document.getElementById('step-1').classList.add('hidden');
+        document.getElementById('step-2').classList.remove('hidden');
+    }
+
+    function submitQuiz() {
+        const txt1 = document.getElementById('txt1').value.trim();
+        const txt2 = document.getElementById('txt2').value.trim();
+        const txtImp = document.getElementById('txt_importante').value.trim();
+        const txtLem = document.getElementById('txt_lembranca').value.trim();
+        const txtFal = document.getElementById('txt_falaria').value.trim();
+
+        if(!isTestUser && (!txt1 || !txt2 || !txtImp || !txtLem || !txtFal)) {
+            alert("Por favor, responda às perguntas obrigatórias por extenso antes de enviar.");
+            return;
+        }
+
+        // Gabarito Numérico Oficial
+        const targets = [8.5, 6.5, 8.0, 9.0, 6.8, 4.5, 8.5, 10.0, 7.5, 5.0];
+        let mainScore = 0;
+
+        for(let i = 1; i <= 10; i++) {
+            let val = parseFloat(document.getElementById('q' + i).value);
+            mainScore += Math.max(0, 10 - Math.abs(targets[i-1] - val));
+        }
+
+        // Gabarito Extras
+        let extraScore = 0;
+
+        // Sexualidade
+        const sexVal = document.getElementById('e_sexualidade').value;
+        if (sexVal === 'bissexual' || sexVal === 'pansexual') {
+            extraScore += 1.5;
+        }
+        
+        // Banda Favorita
+        const bandInput = document.getElementById('e_banda').value.toLowerCase().trim();
+        const bandFeedbackDiv = document.getElementById('bandFeedback');
+
+        if (bandInput.includes("system of a down") || bandInput.includes("soad")) {
+            extraScore += 1.0;
+            bandFeedbackDiv.innerHTML = `<p><strong>Minha Justificativa:</strong> Conheci minha banda favorita com meus 6 anos de idade enquanto jogava “Guitar Flash” no saudoso “Orkut”. Desde então, após anos, ela ainda segue sendo minha banda de todos os tempos. 🖤</p>`;
+        } else {
+            bandFeedbackDiv.innerHTML = `<span class="wrong-text">Sério mesmo que você errou essa? Jura?! 🫪</span><p><strong>Minha Justificativa:</strong> Conheci minha banda favorita com meus 6 anos de idade enquanto jogava “Guitar Flash” no saudoso “Orkut”. Desde então, após anos, ela ainda segue sendo minha banda de todos os tempos. 🖤</p>`;
+        }
+
+        // Anime Favorito
+        const animeInput = document.getElementById('e_anime').value.toLowerCase().trim();
+        const animeFeedbackDiv = document.getElementById('animeFeedback');
+
+        if (animeInput.includes("inuyasha")) {
+            extraScore += 1.0;
+            animeFeedbackDiv.innerHTML = `<p><strong>Minha Justificativa:</strong> Conheci alguns animes na Tv cultura, Cartoon Network e outras redes televisivas da época já muito jovem. Mas, foi em 2011 que eu assisti pela a primeira vez “Inuyasha”, e desde então, este anime segue sendo o meu preferido, anime de conforto – aquele que me fez me definir como otome. “INUYASHA… SENTAAA!!!” 🐶⚔️</p>`;
+        } else {
+            animeFeedbackDiv.innerHTML = `<span class="wrong-text">Errou o meu anime de conforto! 😭</span><p><strong>Minha Justificativa:</strong> Conheci alguns animes na Tv cultura, Cartoon Network e outras redes televisivas da época já muito jovem. Mas, foi em 2011 que eu assisti pela a primeira vez “Inuyasha”, e desde então, este anime segue sendo o meu preferido, anime de conforto – aquele que me fez me definir como otome. “INUYASHA… SENTAAA!!!” 🐶⚔️</p>`;
+        }
+
+        // Múltipla escolha & Novas perguntas
+        if(document.getElementById('e_signo').value === 'peixes') extraScore += 0.5;
+        if(document.getElementById('e_ano').value === '2001') extraScore += 0.5;
+        
+        // The Sims
+        const simsInput = document.getElementById('e_thesims').value.toLowerCase().trim();
+        if(simsInput.includes('motherlode')) extraScore += 0.5;
+
+        // Skoob
+        const skoobInput = document.getElementById('e_skoob').value.toLowerCase().trim();
+        if(skoobInput.includes('pacto de dalila') || skoobInput.includes('pacto de dálila')) extraScore += 0.5;
+
+        // Violetta ou Rebeldes
+        if(document.getElementById('e_violettarebeldes').value === 'ambos') extraScore += 0.5;
+
+        // Preferências
+        const prefVal = document.getElementById('e_preferencias').value;
+        const prefFeedbackDiv = document.getElementById('prefFeedback');
+        if(prefVal === 'uma_incorreta') {
+            extraScore += 0.5;
+        } else if(prefVal === 'todas') {
+            prefFeedbackDiv.innerHTML = `<span class="wrong-text">Jura?! Livros acadêmicos? “O que pensa que eu sou? Se não sou o que pensou?” 😭</span>`;
+        }
+
+        if(document.getElementById('e1').value === 'kpop') extraScore += 0.5;
+        if(document.getElementById('e2').value === 'ambos') extraScore += 0.5;
+        if(document.getElementById('e3').value === 'metal') extraScore += 0.5;
+        if(document.getElementById('e4').value === 'ambos') extraScore += 0.5;
+        if(document.getElementById('e5').value === 'gdragon') extraScore += 0.5;
+        if(document.getElementById('e6').value === 'tae') extraScore += 0.5;
+        if(document.getElementById('e7').value === 'jura') extraScore += 0.5;
+        if(document.getElementById('e8').value === 'ambos') extraScore += 0.5;
+        if(document.getElementById('e9').value === 'castiel') extraScore += 0.5;
+
+        // Respostas de texto pontuadas (0,2 cada se preenchida)
+        if (txtImp !== '') extraScore += 0.2;
+        if (txtLem !== '') extraScore += 0.2;
+        if (txtFal !== '') extraScore += 0.2;
+
+        finalTotalScore = mainScore + extraScore;
+
+        if (!isTestUser) {
+            const form = document.getElementById('quizForm');
+            if(form.action.includes("formspree.io") && !form.action.includes("SEU_CODIGO_AQUI")) {
+                const formData = new FormData(form);
+                fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'Accept': 'application/json' }
+                });
+            }
+        } else {
+            document.getElementById('testNotice').classList.remove('hidden');
+        }
+
+        // Oculta form, exibe tela do SOAD
+        document.getElementById('step-2').classList.add('hidden');
+        document.getElementById('step-soad').classList.remove('hidden');
+    }
+
+    function showResults() {
+        // Preenche dados da tela final
+        document.getElementById('displayUser').innerText = userName;
+        document.getElementById('scoreDisplay').innerText = finalTotalScore.toFixed(1);
+
+        // Lógica de desbloqueio
+        const cleanName = userName.toLowerCase();
+        const allowedVipNames = [
+            'lucas', 'fortunato', 'luscas', 'luskita', 'albino', 'albina', 'sombra', 'sombra albina',
+            'gabriel', 'biel', 'biel xiii', 'bielxiii', 'noivo', 'maridão', 'maridao', 'marido', 'área xiii', 'area xiii', 'gab', 'gabs', 'gael'
+        ];
+
+        const isVipUser = allowedVipNames.some(vip => cleanName.includes(vip));
+
+        if (finalTotalScore >= 80) {
+            if (isVipUser || isTestUser) {
+                document.getElementById('pdfWarningSection').classList.remove('hidden');
+            } else {
+                document.getElementById('generalHighSection').classList.remove('hidden');
+            }
+        } else {
+            document.getElementById('failedSection').classList.remove('hidden');
+        }
+
+        // Alterna telas
+        document.getElementById('step-soad').classList.add('hidden');
+        document.getElementById('step-results').classList.remove('hidden');
+    }
+
+    function openStoryPage() {
+        document.getElementById('step-results').classList.add('hidden');
+        document.getElementById('step-story-page').classList.remove('hidden');
+        window.scrollTo(0, 0);
+    }
+
+    function closeStoryPage() {
+        document.getElementById('step-story-page').classList.add('hidden');
+        document.getElementById('step-results').classList.remove('hidden');
+    }
+
+    function closeTriggerWarning() {
+        document.getElementById('pdfWarningSection').classList.add('hidden');
+    }
+</script>
+
+</body>
+</html>
