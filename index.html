@@ -406,12 +406,19 @@ Este é o espaço onde fica o texto sensível e detalhado. Ele só é exibido pa
 
   function identifyProfile(name) {
     const n = name.toLowerCase().trim();
+
+    // Nomes de Teste e Administradora (Você)
+    const adminNames = ['test', 'teste', 'testando', 'eu', 'barbara', 'bárbara', 'babi', 'chefinha', 'admin', 'adm'];
+    if (adminNames.some(adminName => n === adminName || n.includes(adminName))) {
+      return 'owner';
+    }
+
     if (n.includes('rute') || n.includes('sophia') || n.includes('soso') || n.includes('ruh')) return 'rute';
     if (n.includes('lucas')) return 'lucas';
     if (n.includes('gabriel')) return 'gabriel';
     if (n.includes('elza') || n.includes('gleyce') || n.includes('elzinha')) return 'elza';
     if (n.includes('evellyn') || n.includes('lynn')) return 'evellyn';
-    if (n.includes('barbara') || n.includes('bárbara') || n.includes('babi') || n.includes('chefinha') || n.includes('admin')) return 'owner';
+    
     return 'general';
   }
 
@@ -437,7 +444,7 @@ Este é o espaço onde fica o texto sensível e detalhado. Ele só é exibido pa
     } else if (userProfile === 'evellyn') {
       greetingText.innerText = "Olá, Lynn!\nSeja bem vinda ao meu dossiê de loucura.\nQuero aproveitar para agradecer por ter você em minha vida. Sinto muito por não poder ser uma amiga tão presente, mais saiba que você é e sempre foi uma pessoa muito especial em minha vida! ❤️‍ov🐠";
     } else if (userProfile === 'owner') {
-      greetingText.innerText = "Bem vinda de volta, chefinha!";
+      greetingText.innerText = "Modo Teste / Administradora Ativado! Bem-vinda de volta, Bárbara! 👑";
     } else {
       greetingText.innerText = `Olá, ${nameInput}! Seja muito bem-vindo(a) ao meu delírio coletivo!`;
     }
@@ -676,7 +683,7 @@ Este é o espaço onde fica o texto sensível e detalhado. Ele só é exibido pa
     document.getElementById('rank-title-display').innerText = rankTitle;
     document.getElementById('rank-description').innerText = rankDesc;
 
-    // Atualiza o Placar Geral / Leaderboard local
+    // Atualiza o Placar Geral (ignora gravação se for teste/administradora)
     updateAndRenderLeaderboard(userName, totalScore, rankTitle);
 
     const isVip = (userProfile === 'lucas' || userProfile === 'gabriel' || userProfile === 'owner');
@@ -695,22 +702,27 @@ Este é o espaço onde fica o texto sensível e detalhado. Ele só é exibido pa
   function updateAndRenderLeaderboard(currentName, currentScore, currentRank) {
     let leaderboard = JSON.parse(localStorage.getItem('quiz_leaderboard') || '[]');
 
-    // Atualiza ou adiciona o participante atual na lista
-    const existingIndex = leaderboard.findIndex(item => item.name.toLowerCase() === currentName.toLowerCase());
-    if (existingIndex >= 0) {
-      leaderboard[existingIndex] = { name: currentName, score: currentScore, rank: currentRank };
-    } else {
-      leaderboard.push({ name: currentName, score: currentScore, rank: currentRank });
+    // Apenas participantes normais vão para a lista permanente do ranking
+    if (userProfile !== 'owner') {
+      const existingIndex = leaderboard.findIndex(item => item.name.toLowerCase() === currentName.toLowerCase());
+      if (existingIndex >= 0) {
+        leaderboard[existingIndex] = { name: currentName, score: currentScore, rank: currentRank };
+      } else {
+        leaderboard.push({ name: currentName, score: currentScore, rank: currentRank });
+      }
+
+      leaderboard.sort((a, b) => b.score - a.score);
+      localStorage.setItem('quiz_leaderboard', JSON.stringify(leaderboard));
     }
-
-    // Ordena do maior para o menor ponto
-    leaderboard.sort((a, b) => b.score - a.score);
-
-    localStorage.setItem('quiz_leaderboard', JSON.stringify(leaderboard));
 
     // Renderiza a tabela do placar
     const tbody = document.getElementById('leaderboard-body');
     tbody.innerHTML = '';
+
+    if (leaderboard.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color: var(--text-muted); padding: 12px;">Nenhum participante registrado no ranking ainda.</td></tr>`;
+      return;
+    }
 
     leaderboard.forEach((item, index) => {
       const isCurrent = item.name.toLowerCase() === currentName.toLowerCase();
