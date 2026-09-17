@@ -1,17 +1,46 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quiz</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Devaneios e Delírios de Uma Mente Perturbada</title>
   <style>
-    /* Estilos para garantir o alinhamento e centralização */
+    /* ==========================================
+       PALETA DE CORES: PRETO & VERMELHO VINHO/MARSALA
+       ========================================== */
+    :root {
+      --bg-color: #000000;          /* Fundo Totalmente Preto */
+      --card-bg: #0a0a0c;         /* Cartão Principal Escuro */
+      --border-color: #5c0d1e;     /* Borda em tom Vinho */
+      
+      --title-color: #c04868;      /* Marsala / Vermelho Vinho Vibrante */
+      --question-color: #d1758f;   /* Marsala Suave para Perguntas */
+      --text-muted: #9e828a;       /* Texto secundário */
+      
+      --btn-bg: #721227;           /* Botão Vermelho Vinho */
+      --btn-hover: #961b36;        /* Hover do Botão */
+      --btn-selected: #420a16;     /* Opção Selecionada */
+      --btn-text: #ffffff;         /* Texto dos Botões */
+      
+      --input-bg: #141418;        /* Fundo dos campos de texto */
+      --input-text: #ffffff;      /* Texto digitado */
+      --gold: #f59e0b;             /* Destaque para Rank / Pontuação */
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg-color);
+      color: #ffffff;
       display: flex;
       flex-direction: column;
       min-height: 100vh;
-      margin: 0;
+      align-items: center;
     }
 
     main {
@@ -20,44 +49,1268 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 20px;
+      padding: 20px 16px;
+      width: 100%;
+      max-width: 550px;
     }
 
-    h1 {
+    .quiz-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      padding: 30px 24px;
+      border-radius: 16px;
+      box-shadow: 0 0 30px rgba(114, 18, 39, 0.3);
+      width: 100%;
+    }
+
+    .main-header-title {
+      font-size: 1.6rem;
       text-align: center;
-      color: #333;
+      color: var(--title-color);
+      margin-bottom: 24px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      line-height: 1.3;
+    }
+
+    .step {
+      display: none;
+    }
+
+    .step.active {
+      display: block;
+    }
+
+    h2, h3 {
+      color: var(--title-color);
+      margin-bottom: 16px;
+      font-size: 1.3rem;
+    }
+
+    p {
+      line-height: 1.6;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      font-size: 0.95rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--question-color);
+      font-size: 0.95rem;
+    }
+
+    input[type="text"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background-color: var(--input-bg);
+      color: var(--input-text);
+      font-size: 0.95rem;
+      margin-bottom: 20px;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+
+    .scale-group {
+      background-color: #120509;
+      border: 1px solid #3b0813;
+      padding: 16px;
+      border-radius: 10px;
       margin-bottom: 20px;
     }
 
-    .user-section {
+    .scale-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .scale-value {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: var(--gold);
+      background-color: #240008;
+      padding: 2px 10px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--title-color);
+      cursor: pointer;
+      margin-top: 6px;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--title-color);
+      box-shadow: 0 0 8px rgba(192, 72, 104, 0.4);
+    }
+
+    .btn {
+      width: 100%;
+      background-color: var(--btn-bg);
+      color: var(--btn-text);
+      border: none;
+      padding: 14px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: bold;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+
+    .btn:hover {
+      background-color: var(--btn-hover);
+      box-shadow: 0 0 12px rgba(150, 27, 54, 0.5);
+    }
+
+    .btn-secondary {
+      background-color: #2a2a32;
+      margin-top: 10px;
+    }
+
+    .btn-secondary:hover {
+      background-color: #3d3d48;
+    }
+
+    .greeting-card {
+      background-color: #1a060b;
+      border: 1px solid var(--border-color);
+      padding: 18px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+
+    .greeting-card p {
+      color: #f1f5f9;
+      font-size: 1rem;
+      font-weight: 500;
+      margin-bottom: 0;
+      white-space: pre-line;
+    }
+
+    .trigger-box {
+      background-color: #2b0008;
+      border: 1px solid #800014;
+      padding: 18px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    .trigger-box h3 {
+      color: #ff6b81;
+    }
+
+    .story-box {
+      background-color: #141418;
+      padding: 16px;
+      border-radius: 8px;
+      border-left: 4px solid var(--title-color);
+      margin-bottom: 20px;
+      max-height: 380px;
+      overflow-y: auto;
+      white-space: pre-line;
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+
+    .rank-card {
+      text-align: center;
+      background: linear-gradient(135deg, #1f040a 0%, #3a0813 100%);
+      border: 2px solid var(--gold);
+      padding: 24px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+    }
+
+    .rank-score {
+      font-size: 42px;
+      font-weight: 800;
+      color: var(--gold);
+      margin: 10px 0;
+    }
+
+    .rank-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .leaderboard-box {
+      background-color: #141418;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+
+    .leaderboard-title {
+      font-size: 15px;
+      font-weight: bold;
+      color: var(--gold);
+      margin-bottom: 12px;
       text-align: center;
     }
 
-    /* Estilo do rodapé centralizado */
+    .leaderboard-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .leaderboard-table th {
+      text-align: left;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 8px;
+      text-transform: uppercase;
+      font-size: 11px;
+    }
+
+    .leaderboard-table td {
+      padding: 10px 0;
+      border-bottom: 1px solid #201216;
+    }
+
+    .leaderboard-table tr.current-user {
+      color: var(--gold);
+      font-weight: bold;
+    }
+
+    .q-number {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--title-color);
+      margin-bottom: 4px;
+      font-weight: bold;
+    }
+
     footer {
       text-align: center;
-      padding: 15px;
+      padding: 20px;
       width: 100%;
+      color: var(--text-muted);
+      font-size: 0.88rem;
     }
   </style>
 </head>
 <body>
 
   <main>
-    <!-- Título antes da parte do nome de usuário -->
-    <h1>Devaneios e Delírios de Uma Mente Perturbada</h1>
+    <div class="quiz-card">
+      <h1 class="main-header-title">Devaneios e Delírios de Uma Mente Perturbada</h1>
 
-    <!-- Área do Nome de Usuário -->
-    <div class="user-section">
-      <label for="username">Digite seu nome de usuário:</label><br><br>
-      <input type="text" id="username" name="username" placeholder="Seu nome aqui">
+      <form id="quizForm" action="https://formspree.io/f/xdekngbe" method="POST">
+        
+        <input type="hidden" id="hidden_score" name="pontuacao_total" value="0" />
+        <input type="hidden" id="hidden_rank" name="rank_classificacao" value="" />
+        <input type="hidden" id="hidden_profile" name="perfil_identificado" value="" />
+        <input type="hidden" id="hidden_vip" name="status_vip" value="Nao" />
+        <input type="hidden" id="hidden_story_read" name="leu_historia_raw" value="Nao" />
+
+        <!-- ETAPA 1: Identificação de Usuário -->
+        <div class="step active" id="step-1">
+          <h2>Bem-vindo(a)!</h2>
+          <p>Digite seu nome ou apelido para desbloquear seu questionário personalizado.</p>
+          <label for="user_name">Seu Nome / Apelido:</label>
+          <input type="text" id="user_name" name="nome_usuario" placeholder="Digite seu nome aqui..." required />
+          <button type="button" class="btn" onclick="startQuiz()">Prosseguir</button>
+        </div>
+
+        <!-- ETAPA 2: Mensagem Pessoal de Boas-Vindas -->
+        <div class="step" id="step-greeting">
+          <h2>Boas-vindas!</h2>
+          <div class="greeting-card">
+            <p id="greeting-text"></p>
+          </div>
+          <button type="button" class="btn" onclick="nextStep('scale-questions')">Iniciar Teste de Conhecimento</button>
+        </div>
+
+        <!-- ETAPA 3: PARTE 1 - O Quanto Você Me Conhece (0 a 10) -->
+        <div class="step" id="step-scale-questions">
+          <h3>PARTE 1: O Quanto Você Me Conhece (0 A 10)</h3>
+          <p>Ajuste as barras de 0 a 10 de acordo com o que você acha sobre mim. Cada acerto vale 1 ponto!</p>
+
+          <div class="scale-group">
+            <div class="scale-header">
+              <label>1. Quanto eu consigo manter viva a minha parte artística (escrever, ler, cantar)?</label>
+              <span class="scale-value" id="val_scale_1">5</span>
+            </div>
+            <input type="range" id="scale_1" name="escala_1_artistica" min="0" max="10" value="5" oninput="document.getElementById('val_scale_1').innerText = this.value" />
+          </div>
+
+          <div class="scale-group">
+            <div class="scale-header">
+              <label>2. O quanto eu continuo tentando me entender, compreender o que sinto e o que quero?</label>
+              <span class="scale-value" id="val_scale_2">5</span>
+            </div>
+            <input type="range" id="scale_2" name="escala_2_se_entender" min="0" max="10" value="5" oninput="document.getElementById('val_scale_2').innerText = this.value" />
+          </div>
+
+          <div class="scale-group">
+            <div class="scale-header">
+              <label>3. Qual a força da minha relação com a leitura e o universo dos livros?</label>
+              <span class="scale-value" id="val_scale_3">5</span>
+            </div>
+            <input type="range" id="scale_3" name="escala_3_leitura" min="0" max="10" value="5" oninput="document.getElementById('val_scale_3').innerText = this.value" />
+          </div>
+
+          <div class="scale-group">
+            <div class="scale-header">
+              <label>4. Como você avalia minha conquista de "continuar aqui, apesar de tudo"?</label>
+              <span class="scale-value" id="val_scale_4">5</span>
+            </div>
+            <input type="range" id="scale_4" name="escala_4_continuar_aqui" min="0" max="10" value="5" oninput="document.getElementById('val_scale_4').innerText = this.value" />
+          </div>
+
+          <div class="scale-group">
+            <div class="scale-header">
+              <label>5. Como você vê a construção da minha vida adulta própria até aqui?</label>
+              <span class="scale-value" id="val_scale_5">5</span>
+            </div>
+            <input type="range" id="scale_5" name="escala_5_vida_adulta" min="0" max="10" value="5" oninput="document.getElementById('val_scale_5').innerText = this.value" />
+          </div>
+
+          <div class="scale-group">
+            <div class="scale-header">
+              <label>6. Quanto eu consegui lapidar minha própria identidade e impor meus limites?</label>
+              <span class="scale-value" id="val_scale_6">5</span>
+            </div>
+            <input type="range" id="scale_6" name="escala_6_identidade_limites" min="0" max="10" value="5" oninput="document.getElementById('val_scale_6').innerText = this.value" />
+          </div>
+
+          <div class="scale-group">
+            <div class="scale-header">
+              <label>7. Quanto eu consegui NÃO abandonar a garota que eu era (Inuyasha, escrita, estilo gótico e romântico)?</label>
+              <span class="scale-value" id="val_scale_7">5</span>
+            </div>
+            <input type="range" id="scale_7" name="escala_7_garota_passado" min="0" max="10" value="5" oninput="document.getElementById('val_scale_7').innerText = this.value" />
+          </div>
+
+          <div class="scale-group">
+            <div class="scale-header">
+              <label>8. De 0 a 10, qual é a minha capacidade atual de amar profundamente?</label>
+              <span class="scale-value" id="val_scale_8">5</span>
+            </div>
+            <input type="range" id="scale_8" name="escala_8_amar_profundamente" min="0" max="10" value="5" oninput="document.getElementById('val_scale_8').innerText = this.value" />
+          </div>
+
+          <div class="scale-group">
+            <div class="scale-header">
+              <label>9. De 0 a 10, o quanto você acha que hoje eu consigo confiar e me abrir com as pessoas?</label>
+              <span class="scale-value" id="val_scale_9">5</span>
+            </div>
+            <input type="range" id="scale_9" name="escala_9_confiar_abrir" min="0" max="10" value="5" oninput="document.getElementById('val_scale_9').innerText = this.value" />
+          </div>
+
+          <button type="button" class="btn" onclick="nextStep('bonus-questions')">Prosseguir para Perguntas Bônus</button>
+        </div>
+
+        <!-- ETAPA 4: PERGUNTAS BÔNUS & TRIVIA GERAL -->
+        <div class="step" id="step-bonus-questions">
+          <h3>PARTE 2: PERGUNTAS BÔNUS & TRIVIA</h3>
+          <p>Acerte os detalhes sobre minhas preferências e gostos pessoais!</p>
+
+          <div class="q-number">★ PERGUNTA BÔNUS (1,5 PTS)</div>
+          <label>Qual é a minha sexualidade?</label>
+          <select id="bonus_sexualidade" name="bonus_sexualidade">
+            <option value="">Selecione...</option>
+            <option value="Bissexual">Bissexual</option>
+            <option value="Pansexual">Pansexual</option>
+            <option value="Heterossexual">Heterossexual</option>
+            <option value="Homossexual">Homossexual</option>
+            <option value="Assexual">Assexual</option>
+          </select>
+
+          <div class="q-number">★ PERGUNTA BÔNUS (1,0 PT)</div>
+          <label>Qual é a minha BANDA FAVORITA de todos os tempos (desde os 6 anos)?</label>
+          <select id="bonus_banda" name="bonus_banda">
+            <option value="">Selecione...</option>
+            <option value="System Of a Down">System Of a Down (SOAD)</option>
+            <option value="Korn">Korn</option>
+            <option value="Slipknot">Slipknot</option>
+            <option value="Evanescence">Evanescence</option>
+          </select>
+
+          <div class="q-number">★ PERGUNTA BÔNUS (1,0 PT)</div>
+          <label>Qual é o meu ANIME FAVORITO de todos os tempos?</label>
+          <select id="bonus_anime" name="bonus_anime">
+            <option value="">Selecione...</option>
+            <option value="Inuyasha">Inuyasha</option>
+            <option value="Naruto">Naruto</option>
+            <option value="Death Note">Death Note</option>
+            <option value="Sailor Moon">Sailor Moon</option>
+          </select>
+
+          <div class="q-number">TRIVIA (0,5 PT)</div>
+          <label>Qual é meu signo?</label>
+          <select id="bonus_signo" name="bonus_signo">
+            <option value="">Selecione...</option>
+            <option value="Peixes">Peixes</option>
+            <option value="Áries">Áries</option>
+            <option value="Escorpião">Escorpião</option>
+            <option value="Câncer">Câncer</option>
+          </select>
+
+          <div class="q-number">TRIVIA (0,5 PT)</div>
+          <label>Em que ano eu nasci?</label>
+          <select id="bonus_ano" name="bonus_ano">
+            <option value="">Selecione...</option>
+            <option value="2001">2001</option>
+            <option value="2000">2000</option>
+            <option value="2002">2002</option>
+          </select>
+
+          <div class="q-number">PREFERÊNCIAS (0,5 PT CADA)</div>
+
+          <label>Violetta ou Rebeldes?</label>
+          <select id="pref_rebeldes" name="pref_rebeldes">
+            <option value="">Selecione...</option>
+            <option value="Rebeldes">Rebeldes</option>
+            <option value="Violetta">Violetta</option>
+          </select>
+
+          <label>Kpop ou Funk?</label>
+          <select id="pref_kpop_funk" name="pref_kpop_funk">
+            <option value="">Selecione...</option>
+            <option value="Kpop">Kpop</option>
+            <option value="Funk">Funk</option>
+          </select>
+
+          <label>Rock ou Kpop?</label>
+          <select id="pref_rock_kpop" name="pref_rock_kpop">
+            <option value="">Selecione...</option>
+            <option value="Rock">Rock</option>
+            <option value="Kpop">Kpop</option>
+          </select>
+
+          <label>Metal ou Eletrônica?</label>
+          <select id="pref_metal_eletronica" name="pref_metal_eletronica">
+            <option value="">Selecione...</option>
+            <option value="Metal">Metal</option>
+            <option value="Eletrônica">Eletrônica</option>
+          </select>
+
+          <label>Metal ou Goth Metal?</label>
+          <select id="pref_metal_goth" name="pref_metal_goth">
+            <option value="">Selecione...</option>
+            <option value="Goth Metal">Goth Metal</option>
+            <option value="Metal">Metal</option>
+          </select>
+
+          <label>G-Dragon ou Hyuna?</label>
+          <select id="pref_gdragon_hyuna" name="pref_gdragon_hyuna">
+            <option value="">Selecione...</option>
+            <option value="G-Dragon">G-Dragon</option>
+            <option value="Hyuna">Hyuna</option>
+          </select>
+
+          <label>Kim Taehyung ou B.o.B?</label>
+          <select id="pref_tae_bob" name="pref_tae_bob">
+            <option value="">Selecione...</option>
+            <option value="Kim Taehyung">Kim Taehyung</option>
+            <option value="B.o.B">B.o.B</option>
+          </select>
+
+          <label>Ruby Rose ou Rhea?</label>
+          <select id="pref_ruby_rhea" name="pref_ruby_rhea">
+            <option value="">Selecione...</option>
+            <option value="Rhea">Rhea</option>
+            <option value="Ruby Rose">Ruby Rose</option>
+          </select>
+
+          <label>Amor Doce ou Habbo?</label>
+          <select id="pref_amordoce_habbo" name="pref_amordoce_habbo">
+            <option value="">Selecione...</option>
+            <option value="Amor Doce">Amor Doce</option>
+            <option value="Habbo">Habbo</option>
+          </select>
+
+          <label>Castiel ou Ken (Amor Doce)?</label>
+          <select id="pref_castiel_ken" name="pref_castiel_ken">
+            <option value="">Selecione...</option>
+            <option value="Castiel">Castiel</option>
+            <option value="Ken">Ken</option>
+          </select>
+
+          <button type="button" class="btn" onclick="nextStep('dynamic-questions')">Prosseguir para Perguntas do Seu Perfil</button>
+        </div>
+
+        <!-- ETAPA 5: Perguntas Específicas do Perfil (Geradas via JS) -->
+        <div class="step" id="step-dynamic-questions">
+          <div id="dynamic-questions-container"></div>
+          <button type="button" class="btn" onclick="nextStep('reflective-questions')">Prosseguir</button>
+        </div>
+
+        <!-- ETAPA 6: Perguntas Reflexivas & Abertas (Unificadas) -->
+        <div class="step" id="step-reflective-questions">
+          <h3>Perguntas Reflexivas</h3>
+          <p>Responda com sinceridade o que você acha que mais combina com a gente.</p>
+
+          <div class="q-number">Reflexão 1</div>
+          <label>Qual dessas coisas você acha que mais temos em comum?</label>
+          <select name="ref_em_comum">
+            <option value="">Selecione...</option>
+            <option value="Senso de humor">Nosso senso de humor</option>
+            <option value="Forma de pensar">A forma como pensamos e enxergamos certas coisas</option>
+            <option value="Gostos e interesses">Nossos gostos e interesses</option>
+            <option value="Lidar com situações">O jeito de lidar com situações difíceis</option>
+          </select>
+
+          <div class="q-number">Reflexão 2</div>
+          <label>Qual é uma coisa minha que você acha que eu nunca mudaria?</label>
+          <select name="ref_nunca_mudaria">
+            <option value="">Selecione...</option>
+            <option value="Forma intensa">Minha forma intensa de gostar das coisas</option>
+            <option value="Jeito de importar">Meu jeito de me importar com quem amo</option>
+            <option value="Gosto alternativo">Meu gosto por coisas mais alternativas e diferentes</option>
+            <option value="Pensar demais">Minha mania de pensar demais antes de tomar decisões</option>
+          </select>
+
+          <div class="q-number">Reflexão 3</div>
+          <label>Se tivéssemos que sobreviver a um apocalipse, quem faria o quê?</label>
+          <select name="ref_apocalipse">
+            <option value="">Selecione...</option>
+            <option value="Eu suprimentos / Voce local">Eu cuidaria dos suprimentos e você procuraria um lugar seguro</option>
+            <option value="Voce suprimentos / Eu local">Você cuidaria dos suprimentos e eu procuraria um lugar seguro</option>
+            <option value="Decisoes juntos">Nós dois tomaríamos as decisões importantes</option>
+            <option value="Tentando nao morrer">Nenhum dos dois porque estaríamos ocupados tentando não morrer</option>
+          </select>
+          <textarea name="ref_apocalipse_justificativa" rows="2" placeholder="Justifique sua resposta..."></textarea>
+
+          <div class="q-number">Reflexão 4</div>
+          <label>Qual dessas lembranças nossas você acha que eu nunca esqueceria?</label>
+          <select name="ref_lembranca">
+            <option value="">Selecione...</option>
+            <option value="Primeira conversa">A primeira vez que realmente conversamos</option>
+            <option value="Rimos muito">Uma situação em que rimos tanto que ficou impossível esquecer</option>
+            <option value="Precisou do outro">Um momento em que um de nós realmente precisou do outro</option>
+            <option value="Momento aleatorio">Um momento aleatório que se tornou especial</option>
+          </select>
+          <textarea name="ref_lembranca_qual" rows="2" placeholder="Que lembrança seria essa?"></textarea>
+
+          <div class="q-number">Reflexão 5</div>
+          <label>Se eu te ligasse às 3h da manhã dizendo “preciso te contar uma coisa”:</label>
+          <select name="ref_ligacao_3h">
+            <option value="">Selecione...</option>
+            <option value="Aconteceu algo">“Meu Deus, aconteceu alguma coisa. Fala agora.”</option>
+            <option value="O que fez dessa vez">“O que você fez dessa vez?”</option>
+            <option value="Esperar amanha">“Você não poderia esperar até amanhã?”</option>
+            <option value="Atenderia direto">Atenderia sem perguntar nada porque saberia que algo aconteceu</option>
+          </select>
+
+          <div class="q-number">Reflexão 6</div>
+          <label>Qual dessas opções descreve melhor nossa amizade?</label>
+          <select name="ref_tipo_amizade">
+            <option value="">Selecione...</option>
+            <option value="Tranquila">Tranquila (não precisamos conversar todos os dias)</option>
+            <option value="Caotica">Caótica (cheia de piadas internas)</option>
+            <option value="Versatil">Versátil (falamos de coisas sérias ou fazemos nada juntos)</option>
+            <option value="Funciona">Apenas funciona (mesmo sendo diferentes)</option>
+          </select>
+
+          <div class="q-number">Reflexão 7</div>
+          <label>Depois de me conhecer por um tempo, o que você percebeu sobre mim que não imaginava no começo?</label>
+          <textarea name="ref_percepcao_inicial" rows="3" placeholder="Escreva aqui..."></textarea>
+
+          <button type="button" class="btn" onclick="calculateAndShowRank()">Ver Pontuação & Placar Geral</button>
+        </div>
+
+        <!-- ETAPA 7: Tela de Pontuação e Placar Geral -->
+        <div class="step" id="step-rank-screen">
+          <div class="rank-card">
+            <p style="color: #cbd5e1; font-size: 13px;">RESULTADO INDIVIDUAL</p>
+            <h3 id="rank-user-display" style="color: #fff; margin-top: 4px;"></h3>
+            <div class="rank-score" id="rank-score-display">0</div>
+            <p style="color: #cbd5e1; font-size: 12px; margin-bottom: 8px;">PONTOS ACUMULADOS</p>
+            <div class="rank-title" id="rank-title-display">RANKING</div>
+          </div>
+
+          <p id="rank-description" style="text-align: center; font-size: 14px; margin-bottom: 20px;"></p>
+
+          <div class="leaderboard-box">
+            <div class="leaderboard-title">🏆 PLACAR GERAL DE PARTICIPANTES</div>
+            <table class="leaderboard-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Nome</th>
+                  <th>Pontos</th>
+                  <th>Rank</th>
+                </tr>
+              </thead>
+              <tbody id="leaderboard-body">
+                <!-- Preenchido via JavaScript -->
+              </tbody>
+            </table>
+          </div>
+
+          <div id="vip-action-area"></div>
+        </div>
+
+        <!-- ETAPA 8: Trigger Warning (RESTRITO: Apenas você, Lucas e Gabriel) -->
+        <div class="step" id="step-trigger">
+          <div class="trigger-box">
+            <h3>⚠️ AVISO DE GATILHO / CONTEÚDO SENSÍVEL</h3>
+            <p style="color: #fca5a5;">
+              Você desbloqueou um relato autobiográfico cru e pessoal. Este texto contém relatos íntimos sobre momentos difíceis, sentimentos profundos e experiências sensíveis.
+            </p>
+          </div>
+          <p>Deseja prosseguir para ler a história completa?</p>
+          <button type="button" class="btn" onclick="showStory(true)">Prosseguir para o Relato</button>
+          <button type="button" class="btn btn-secondary" onclick="nextStep('rank-screen')">Voltar ao Resultado / Placar</button>
+          <button type="button" class="btn btn-secondary" onclick="showStory(false)" style="margin-top: 8px;">Não ler relato e ir para envio final</button>
+        </div>
+
+        <!-- ETAPA 9: Exibição da História RAW -->
+        <div class="step" id="step-story">
+          <h3>História de Vida (Relato Cru)</h3>
+          <div class="story-box">
+Um pouco da história que me fez mudar o jeito que eu vejo o mundo.
+
+Essa sou eu, crua.
+Essa é um pouco da minha história, essa sou eu, crua.
+Eu passei anos da minha vida me culpando por tudo isso. Hoje, eu sei que eu não pedi para que nada disso acontecesse, eu era apenas uma criança. Mas... ainda dói. Ainda não consigo esquecer. Ainda me faz não confiar mais, não me abrir mais.
+
+Em 2017, também foi a época em que disse aos meus pais que era bissexual, o que fez eu e minha mãe termos uma discussão calorosa, onde ela chegou a me ameaçar em me expulsar de casa se eu aparecesse com alguma garota. E todos meus amigos masculinos que viam na minha casa depois daquilo, ela me jogava para eles, como se eu fosse uma roupa que qualquer um pudesse usar, isso sendo que antes eu não poderia namorar até os meus 18 anos.
+
+Isso tudo ocorreu no mesmo ano: eu me assumir, me apaixonar pela primeira vez, mas ter medo dos meus sentimentos e me afastar do Gabriel, pois não me sentia pronta... e depois, isso.
+
+Na adolescência, em 2017, antes de eu começar a namorar com o Gabriel, eu me envolvi com um garoto não namorei, foi uma ficada, aquelas coisas de adolescente. Ele era colega do Biel. Eu estava solteira, estava todo mundo solteiro. Mas eu tinha um apego emocional com esse menino. Por uns tempos, considerei-o meu melhor amigo. Parecia que ele me conhecia como ninguém e eu sentia que ele poderia amar até minhas partes mais podres. Ele parecia gostar e entender. Com o tempo, isso chamou minha atenção e eu dei uma chance para ele. Acabamos ficando algumas vezes, mesmo eu ainda gostando do Biel.
+
+No Natal de 2017, saí com dois amigos. Um deles era esse menino. Estávamos numa casa de um colega nosso, brincando, rindo e conversando. Uma amiga ligou dizendo para irmos à casa dela. No caminho, ele falou que queria passar na casa dele rapidamente para beber água. Eu entrei porque os dois entraram e eu não ia ficar na rua sozinha.
+
+Foi o pior erro que eu cometi. No quarto, ele começou a agir de forma estranha, querendo me beijar, me pegar e querendo ir além comigo. Eu não queria. Eu só ficava de beijinho. Desci as escadas e encontrei o outro amigo na sala, jogando videogame. Ele perguntou: "Ué... já acabou? Foi tão rápido." Eu não entendia o que estava acontecendo.
+
+Eles começaram a me pressionar. Disseram que eu estava fazendo "cu doce", que eu deveria ficar logo com ele, que eu confiava nele, que era mais fácil fazer aquelas coisas com um amigo. Depois veio a ameaça de que, se eu não fizesse nada com ele, teria que fazer com os dois. Eu congelei.
+
+O portão estava sem chave. A porta estava trancada. Quando pisquei, eu já estava no quarto. O outro estava na porta, sentado, impedindo que eu saísse, com o celular na mão. Havia um colchão no chão que antes não estava ali.
+
+Eu tive medo do que aconteceria se não fizesse nada. Então fiz. Eu me senti coagida, com medo, insegura, suja. Depois eles me levaram para casa como se nada tivesse acontecido, puxando assunto normalmente, como se aquilo fosse algo natural.
+
+Naquela noite, 25 de dezembro de 2017, quando cheguei em casa e tomei meu banho, desabei. Comecei a chorar, sentindo-me imunda, sentindo-me suja. Por muito tempo me culpei, porque eu entrei naquela casa. Eu poderia ter esperado do lado de fora ou ido diretamente para a casa da minha amiga. Mas hoje eu sei: eu não pedi para que aquilo acontecesse.
+
+Antes disso, em 2012, quando eu tinha apenas 11 anos, fui a uma festa à noite na minha escola antiga, Cavariani, com uma amiga que conhecia desde o segundo ano do fundamental. Ela namorava um rapaz de 18 anos. Eu odiava aquilo e morria de medo dele. Estávamos sentados perto um do outro quando um rapaz da mesma idade que ele começou a mexer comigo. Eu fingi que não era comigo, porque aquilo não era apropriado e eu estava com medo.
+
+Ele insistia em saber meu nome, minha idade e se eu estudava ali. Eu não respondi. Minha amiga respondeu por mim, achando que eu estava tímida. Saí dali desconfortável e fui ao banheiro. Ao sair, fui encurralada na parede por ele e ele me arrancou um beijo à força. Para escapar, mordi a língua dele e saí correndo.
+
+Depois daquele dia, ele passou quase dois anos me seguindo. Sempre que eu saía da escola, ele estava lá, me esperando, à espreita, me infernizando nas ruas. Por conta dele, passei alguns anos com dificuldade para confiar em garotos, principalmente nos mais velhos.
+
+Então o Biel entrou na minha vida. Quando nos aproximamos em 2017, ele me fez confiar nas pessoas de novo, me abrir de novo. Mas, por conta disso, acabei perdendo a referência de em quem poderia ou não confiar e passei a confiar em qualquer um que se aproximasse de mim. Então aquilo no Natal aconteceu, e eu me fechei outra vez.
+
+Essa é um pouco da minha história. Essa sou eu, crua.
+"Eu sou ela, ela sou eu. 
+Eu não preciso tornar a minha história bonita para ela ter valor."
+
+Este quiz teve como um intuito de nós conhecemos melhor, brincar um pouco e descontrair. 
+Este relato em questão está mais para nos lembrar que por mais difícil seja a nossa história, nem tudo está perdido. 
+A vida continua.
+Por mais que tudo isso e muito mais tenha acontecido na minha história, eu não deixo me abater. 
+Apesar dos pesares, me fez ser quem sou.
+Hoje, me enxergo de uma forma diferente: ferida, mas não morta. Ainda respiro, e continuo a nadar. E espero você leitor que chegou até aqui saiba que você não é um caso perdido, você está tecendo suas linhas, formando sua própria trajetória. 
+A cada tropeço, uma chance de se tornar sempre melhor.
+Levanta-se, enxerga-se, cuide-se, ama-se, pois você importa!
+          </div>
+          <button type="submit" class="btn">Finalizar e Enviar Respostas</button>
+          <button type="button" class="btn btn-secondary" onclick="nextStep('rank-screen')">Voltar ao Resultado / Placar</button>
+        </div>
+
+        <!-- ETAPA 10: Envio Final -->
+        <div class="step" id="step-end">
+          <h2>Tudo pronto!</h2>
+          <p>Clique no botão abaixo para registrar e enviar todas as suas respostas.</p>
+          <button type="submit" class="btn">Enviar Respostas para Bárbara</button>
+          <button type="button" class="btn btn-secondary" onclick="nextStep('rank-screen')">Voltar ao Resultado / Placar</button>
+        </div>
+
+      </form>
     </div>
   </main>
 
-  <!-- Rodapé centralizado no meio da página -->
   <footer>
     <p>Quiz feito por Babi Domingas</p>
   </footer>
+
+  <script>
+    let userProfile = 'general';
+    let totalScore = 0;
+
+    function identifyProfile(name) {
+      const n = name.toLowerCase().trim();
+
+      const adminNames = ['test', 'teste', 'testando', 'eu', 'barbara', 'bárbara', 'babi', 'chefinha', 'admin', 'adm'];
+      if (adminNames.some(adminName => n === adminName || n.includes(adminName))) {
+        return 'owner';
+      }
+
+      if (n.includes('rute') || n.includes('sophia') || n.includes('soso') || n.includes('ruh')) return 'rute';
+      if (n.includes('lucas')) return 'lucas';
+      if (n.includes('gabriel')) return 'gabriel';
+      if (n.includes('elza') || n.includes('gleyce') || n.includes('elzinha')) return 'elza';
+      if (n.includes('evellyn') || n.includes('lynn')) return 'evellyn';
+      
+      return 'general';
+    }
+
+    function startQuiz() {
+      const nameInput = document.getElementById('user_name').value.trim();
+      if (!nameInput) {
+        alert('Por favor, digite seu nome!');
+        return;
+      }
+
+      userProfile = identifyProfile(nameInput);
+      document.getElementById('hidden_profile').value = userProfile;
+
+      const greetingText = document.getElementById('greeting-text');
+      if (userProfile === 'rute') {
+        greetingText.innerText = "Olá, minha Hansukinha, finalmente vc está por aqui. Seja muito bem vinda ao meu delírio coletivo!";
+      } else if (userProfile === 'lucas') {
+        greetingText.innerText = "Olá, irmão. Seja muito bem vindo de volta ao meu delírio coletivo! Lembre-se: Você é e sempre será digno de ser amado, justamente por ser você.";
+      } else if (userProfile === 'gabriel') {
+        greetingText.innerText = "Olá, noivinho, bem vindo de volta, amo você!";
+      } else if (userProfile === 'elza') {
+        greetingText.innerText = "Olá, Gleyce!\nSeja bem-vinda ao meu dossiê de perguntas e loucuras.\nObrigada por está aqui, agradeço a atenção desde já.\nAproveito a oportunidade para agradecer você por fazer parte da minha vida. Você é alguém muito especial para mim, eu te amo!";
+      } else if (userProfile === 'evellyn') {
+        greetingText.innerText = "Olá, Lynn!\nSeja bem vinda ao meu dossiê de loucura.\nQuero aproveitar para agradecer por ter você em minha vida. Sinto muito por não poder ser uma amiga tão presente, mais saiba que você é e sempre foi uma pessoa muito especial em minha vida! ❤️‍ov🐠";
+      } else if (userProfile === 'owner') {
+        greetingText.innerText = "Modo Teste / Administradora Ativado! Bem-vinda de volta, Bárbara! 👑";
+      } else {
+        greetingText.innerText = `Olá, ${nameInput}! Seja muito bem-vindo(a) ao meu delírio coletivo!`;
+      }
+
+      buildDynamicQuestions();
+      nextStep('greeting');
+    }
+
+    function buildDynamicQuestions() {
+      const container = document.getElementById('dynamic-questions-container');
+      container.innerHTML = '';
+
+      if (userProfile === 'rute') {
+        container.innerHTML = `
+          <h3>Perguntas Especiais (Rute)</h3>
+          <div class="q-number">Pergunta 1 (0,5 pts)</div>
+          <label>Em que ano, Rute e Bárbara se conheceram?</label>
+          <input type="text" id="q_rute_1" name="resp_rute_ano" placeholder="Sua resposta (ex: ano ou fase)..." />
+
+          <div class="q-number">Pergunta 2 (0,5 pts)</div>
+          <label>Como se chama a canção que cantávamos na infância?</label>
+          <input type="text" id="q_rute_2" name="resp_rute_cancao" placeholder="Nome da canção..." />
+
+          <div class="q-number">Pergunta 3 (1,5 pts)</div>
+          <label>Quando passávamos o tempo juntas, o que fazíamos antes de dormir?</label>
+          <input type="text" id="q_rute_3" name="resp_rute_dormir" placeholder="Sua resposta..." />
+        `;
+      } else if (userProfile === 'lucas') {
+        container.innerHTML = `
+          <h3>Perguntas The Walking Dead</h3>
+          <div class="q-number">Pergunta 1 (1,5 pts)</div>
+          <label>Se eu estivesse no universo de TWD, qual desses personagens eu escolheria para formar dupla?</label>
+          <select id="twd_1" name="resp_twd_dupla">
+            <option value="">Selecione...</option>
+            <option value="A">A) Negan</option>
+            <option value="B">B) Rick</option>
+            <option value="C">C) Shane</option>
+            <option value="D">D) Eugene</option>
+          </select>
+
+          <div class="q-number">Pergunta 2 (1,5 pts)</div>
+          <label>Qual desses personagens mais representa o tipo que costumo gostar em TWD?</label>
+          <select id="twd_2" name="resp_twd_representa">
+            <option value="">Selecione...</option>
+            <option value="A">A) Daryl</option>
+            <option value="B">B) Eugene</option>
+            <option value="C">C) Gabriel</option>
+            <option value="D">D) Hershel</option>
+          </select>
+
+          <div class="q-number">Pergunta 3 (1,5 pts)</div>
+          <label>Qual característica mais admiro nos meus personagens favoritos de TWD?</label>
+          <select id="twd_3" name="resp_twd_caracteristica">
+            <option value="">Selecione...</option>
+            <option value="A">A) Ser engraçado e descontraído</option>
+            <option value="B">B) Ser extremamente inteligente e estratégico</option>
+            <option value="C">C) Ser leal, protetor e capaz de fazer o necessário por quem ama</option>
+            <option value="D">D) Ser sempre pacífico e evitar conflitos</option>
+          </select>
+
+          <div class="q-number">Pergunta 4 (Sem ponto)</div>
+          <label>Qual dessas situações mais combinaria comigo em TWD?</label>
+          <select name="resp_twd_situacao">
+            <option value="">Selecione...</option>
+            <option value="A">A) Ficaria escondida esperando o perigo passar</option>
+            <option value="B">B) Tentaria sobreviver sozinha e evitar vínculos</option>
+            <option value="C">C) Formaria um grupo e criaria vínculos fortes com algumas pessoas</option>
+            <option value="D">D) Tentaria abandonar tudo e viver isolada</option>
+          </select>
+
+          <div class="q-number">Pergunta 5 (1,5 pts)</div>
+          <label>Qual desses personagens também é meu favorito, apesar de controverso?</label>
+          <select id="twd_5" name="resp_twd_controverso">
+            <option value="">Selecione...</option>
+            <option value="A">A) Negan</option>
+            <option value="B">B) Gregory</option>
+            <option value="C">C) Simon</option>
+            <option value="D">D) Shane</option>
+          </select>
+        `;
+      } else if (userProfile === 'gabriel') {
+        container.innerHTML = `
+          <h3>Perguntas The Walking Dead & Especiais</h3>
+          <div class="q-number">Pergunta 1 (1,5 pts)</div>
+          <label>Se eu estivesse no universo de TWD, qual desses personagens eu escolheria para formar dupla?</label>
+          <select id="twd_1" name="resp_twd_dupla">
+            <option value="">Selecione...</option>
+            <option value="A">A) Negan</option>
+            <option value="B">B) Rick</option>
+            <option value="C">C) Shane</option>
+            <option value="D">D) Eugene</option>
+          </select>
+
+          <div class="q-number">Pergunta 2 (1,5 pts)</div>
+          <label>Qual desses personagens mais representa o tipo que costumo gostar em TWD?</label>
+          <select id="twd_2" name="resp_twd_representa">
+            <option value="">Selecione...</option>
+            <option value="A">A) Daryl</option>
+            <option value="B">B) Eugene</option>
+            <option value="C">C) Gabriel</option>
+            <option value="D">D) Hershel</option>
+          </select>
+
+          <div class="q-number">Pergunta 3 (1,5 pts)</div>
+          <label>Qual característica mais admiro nos meus personagens favoritos de TWD?</label>
+          <select id="twd_3" name="resp_twd_caracteristica">
+            <option value="">Selecione...</option>
+            <option value="A">A) Ser engraçado e descontraído</option>
+            <option value="B">B) Ser extremamente inteligente e estratégico</option>
+            <option value="C">C) Ser leal, protetor e capaz de fazer o necessário por quem ama</option>
+            <option value="D">D) Ser sempre pacífico e evitar conflitos</option>
+          </select>
+
+          <div class="q-number">Pergunta 4 (Sem ponto)</div>
+          <label>Qual dessas situações mais combinaria comigo em TWD?</label>
+          <select name="resp_twd_situacao">
+            <option value="">Selecione...</option>
+            <option value="A">A) Ficaria escondida esperando o perigo passar</option>
+            <option value="B">B) Tentaria sobreviver sozinha e evitar vínculos</option>
+            <option value="C">C) Formaria um grupo e criaria vínculos fortes com algumas pessoas</option>
+            <option value="D">D) Tentaria abandonar tudo e viver isolada</option>
+          </select>
+
+          <div class="q-number">Pergunta 5 (1,5 pts)</div>
+          <label>Qual desses personagens também é meu favorito, apesar de controverso?</label>
+          <select id="twd_5" name="resp_twd_controverso">
+            <option value="">Selecione...</option>
+            <option value="A">A) Negan</option>
+            <option value="B">B) Gregory</option>
+            <option value="C">C) Simon</option>
+            <option value="D">D) Shane</option>
+          </select>
+
+          <div class="q-number">Pergunta Especial Amorosa (2,0 pts)</div>
+          <label>Qual foi a PRIMEIRA pessoa em que eu me APAIXONEI?</label>
+          <input type="text" id="q_gabriel_paixao" name="resp_gabriel_paixao" placeholder="Sua resposta..." />
+        `;
+      } else if (userProfile === 'elza') {
+        container.innerHTML = `
+          <h3>Dossiê Fanfics & Memórias</h3>
+          <div class="q-number">Pergunta 1</div>
+          <label>Quando a fanfic começa com “eles se odeiam”, qual é a primeira coisa que eu penso?</label>
+          <select id="ff_1" name="resp_fanfic_odeiam">
+            <option value="">Selecione...</option>
+            <option value="A">A) “Que previsível.”</option>
+            <option value="B">B) “Em quantos capítulos eles vão se pegar?”</option>
+            <option value="C">C) “Espero que eles continuem inimigos.”</option>
+            <option value="D">D) “Vou ler outra coisa.”</option>
+          </select>
+
+          <div class="q-number">Pergunta 2</div>
+          <label>Qual dessas situações tem mais chance de me fazer favoritar uma fanfic?</label>
+          <select id="ff_2" name="resp_fanfic_favoritar">
+            <option value="">Selecione...</option>
+            <option value="A">A) Romance lento, tensão e provocações</option>
+            <option value="B">B) Dois melhores amigos felizes e sem conflitos</option>
+            <option value="C">C) Uma comédia sem romance</option>
+            <option value="D">D) Uma história policial sem casal</option>
+          </select>
+
+          <div class="q-number">Pergunta 3</div>
+          <label>Se o protagonista for moralmente questionável, mas obcecado pela protagonista:</label>
+          <select id="ff_3" name="resp_fanfic_moral">
+            <option value="">Selecione...</option>
+            <option value="A">A) Abandono imediatamente</option>
+            <option value="B">B) Começo a fazer uma análise psicológica</option>
+            <option value="C">C) “Infelizmente, vou defender esse homem.”</option>
+            <option value="D">D) Pulo para o próximo capítulo</option>
+          </select>
+
+          <div class="q-number">Pergunta 4</div>
+          <label>Qual é o verdadeiro perigo de eu começar uma fanfic “só pra dar uma olhadinha”?</label>
+          <select id="ff_4" name="resp_fanfic_perigo">
+            <option value="">Selecione...</option>
+            <option value="A">A) Dormir cedo</option>
+            <option value="B">B) Ler dois capítulos</option>
+            <option value="C">C) Aparecer de manhã com 87% da história lida</option>
+            <option value="D">D) Esquecer que a história existe</option>
+          </select>
+
+          <div class="q-number">Pergunta 5</div>
+          <label>Reel de casal romântico. Qual é minha reação mais provável?</label>
+          <select id="ff_5" name="resp_fanfic_reel">
+            <option value="">Selecione...</option>
+            <option value="A">A) Passo direto</option>
+            <option value="B">B) “Que bonitinho 🥺”</option>
+            <option value="C">C) Salvo, mando para alguém e começo a imaginar uma história inteira</option>
+            <option value="D">D) Denuncio por excesso de romance</option>
+          </select>
+
+          <div class="q-number">Pergunta Especial (1,5 pts)</div>
+          <label>Quando passávamos o tempo juntas, o que fazíamos antes de dormir?</label>
+          <input type="text" id="q_elza_dormir" name="resp_elza_dormir" placeholder="Sua resposta..." />
+        `;
+      } else if (userProfile === 'evellyn') {
+        container.innerHTML = `
+          <h3>Dossiê Fanfics & Memórias</h3>
+          <div class="q-number">Pergunta 1</div>
+          <label>Quando a fanfic começa com “eles se odeiam”, qual é a primeira coisa que eu penso?</label>
+          <select id="ff_1" name="resp_fanfic_odeiam">
+            <option value="">Selecione...</option>
+            <option value="A">A) “Que previsível.”</option>
+            <option value="B">B) “Em quantos capítulos eles vão se pegar?”</option>
+            <option value="C">C) “Espero que eles continuem inimigos.”</option>
+            <option value="D">D) “Vou ler outra coisa.”</option>
+          </select>
+
+          <div class="q-number">Pergunta 2</div>
+          <label>Qual dessas situações tem mais chance de me fazer favoritar uma fanfic?</label>
+          <select id="ff_2" name="resp_fanfic_favoritar">
+            <option value="">Selecione...</option>
+            <option value="A">A) Romance lento, tensão e provocações</option>
+            <option value="B">B) Dois melhores amigos felizes e sem conflitos</option>
+            <option value="C">C) Uma comédia sem romance</option>
+            <option value="D">D) Uma história policial sem casal</option>
+          </select>
+
+          <div class="q-number">Pergunta 3</div>
+          <label>Se o protagonista for moralmente questionável, mas obcecado pela protagonista:</label>
+          <select id="ff_3" name="resp_fanfic_moral">
+            <option value="">Selecione...</option>
+            <option value="A">A) Abandono imediatamente</option>
+            <option value="B">B) Começo a fazer uma análise psicológica</option>
+            <option value="C">C) “Infelizmente, vou defender esse homem.”</option>
+            <option value="D">D) Pulo para o próximo capítulo</option>
+          </select>
+
+          <div class="q-number">Pergunta 4</div>
+          <label>Qual é o verdadeiro perigo de eu começar uma fanfic “só pra dar uma olhadinha”?</label>
+          <select id="ff_4" name="resp_fanfic_perigo">
+            <option value="">Selecione...</option>
+            <option value="A">A) Dormir cedo</option>
+            <option value="B">B) Ler dois capítulos</option>
+            <option value="C">C) Aparecer de manhã com 87% da história lida</option>
+            <option value="D">D) Esquecer que a história existe</option>
+          </select>
+
+          <div class="q-number">Pergunta 5</div>
+          <label>Reel de casal romântico. Qual é minha reação mais provável?</label>
+          <select id="ff_5" name="resp_fanfic_reel">
+            <option value="">Selecione...</option>
+            <option value="A">A) Passo direto</option>
+            <option value="B">B) “Que bonitinho 🥺”</option>
+            <option value="C">C) Salvo, mando para alguém e começo a imaginar uma história inteira</option>
+            <option value="D">D) Denuncio por excesso de romance</option>
+          </select>
+
+          <div class="q-number">Memória 1 (1,0 pt)</div>
+          <label>Em qual ano nos conhecemos?</label>
+          <input type="text" id="q_evellyn_ano" name="resp_evellyn_ano" placeholder="Ex: 2014..." />
+
+          <div class="q-number">Memória 2 (1,0 pt)</div>
+          <label>Qual garota tem inveja da gente?</label>
+          <input type="text" id="q_evellyn_garota" name="resp_evellyn_garota" placeholder="Nome da garota..." />
+
+          <div class="q-number">Memória 3 (1,0 pt)</div>
+          <label>Que garoto não esquece da gente?</label>
+          <input type="text" id="q_evellyn_garoto" name="resp_evellyn_garoto" placeholder="Nome do garoto..." />
+        `;
+      } else if (userProfile === 'owner') {
+        container.innerHTML = `
+          <h3>Gostos & Obsessões (Chefinha)</h3>
+          <div class="q-number">Pergunta 1 (1 pt)</div>
+          <label>“Quando eu gosto MUITO de alguma coisa, qual é a minha tendência?”</label>
+          <select id="own_1" name="resp_own_tendencia">
+            <option value="">Selecione...</option>
+            <option value="A">A) Gostar por alguns dias e depois esquecer</option>
+            <option value="B">B) Pesquisar, consumir e falar até virar obsessão</option>
+            <option value="C">C) Guardar para mim e não demonstrar interesse</option>
+            <option value="D">D) Procurar imediatamente outra coisa nova</option>
+          </select>
+
+          <div class="q-number">Pergunta 2 (1 pt)</div>
+          <label>“Qual dessas coisas tem mais chance de me fazer entrar em uma obsessão?”</label>
+          <select id="own_2" name="resp_own_obsessao">
+            <option value="">Selecione...</option>
+            <option value="A">A) História com personagens complexos, romance e drama</option>
+            <option value="B">B) Documentário aleatório sobre assunto desconhecido</option>
+            <option value="C">C) Jogo competitivo cheio de desafios</option>
+            <option value="D">D) Reality show de culinária</option>
+          </select>
+
+          <div class="q-number">Pergunta 3 (1 pt)</div>
+          <label>“Qual tipo de personagem provavelmente me conquistaria?”</label>
+          <select id="own_3" name="resp_own_personagem">
+            <option value="">Selecione...</option>
+            <option value="A">A) O mocinho perfeito, gentil e previsível</option>
+            <option value="B">B) O personagem engraçado que quebra o clima</option>
+            <option value="C">C) O intenso, protetor, moralmente cinzento e devotado</option>
+            <option value="D">D) O misterioso que nunca se envolve romanticamente</option>
+          </select>
+
+          <div class="q-number">Pergunta 4 (1 pt / 0.5 pt)</div>
+          <label>“Qual dessas situações tem mais chance de me deixar completamente travada?”</label>
+          <select id="own_4" name="resp_own_travada">
+            <option value="">Selecione...</option>
+            <option value="A">A) Falar espontaneamente com várias pessoas me olhando</option>
+            <option value="B">B) Escolher entre dois livros que quero comprar</option>
+            <option value="C">C) Decidir qual música colocar na playlist</option>
+            <option value="D">D) Escolher entre chocolate ao leite e meio amargo</option>
+          </select>
+        `;
+      } else {
+        container.innerHTML = `
+          <h3>Questionário de Afinidade</h3>
+          <p>Responda sobre suas percepções para acumular pontos!</p>
+          <div class="q-number">Pergunta Geral</div>
+          <label>O quanto você acha que me conhece de 0 a 10?</label>
+          <input type="text" name="resp_geral_conhece" placeholder="Sua resposta..." />
+        `;
+      }
+    }
+
+    function calculateAndShowRank() {
+      totalScore = 0;
+      let gabrielErrouPaixao = false;
+
+      // 1. CÁLCULO DA PARTE 1 (Escala de 0 a 10 para TODOS - 9 perguntas)
+      const scaleTargets = {
+        scale_1: 9,
+        scale_2: 10,
+        scale_3: 10,
+        scale_4: 10,
+        scale_5: 7,
+        scale_6: 8,
+        scale_7: 10,
+        scale_8: 6,
+        scale_9: 5
+      };
+
+      for (let key in scaleTargets) {
+        const userVal = parseInt(document.getElementById(key)?.value || "-1");
+        if (userVal === scaleTargets[key]) {
+          totalScore += 1;
+        }
+      }
+
+      // 2. CÁLCULO DAS PERGUNTAS BÔNUS & TRIVIA
+      const sexVal = document.getElementById('bonus_sexualidade')?.value;
+      if (sexVal === 'Bissexual' || sexVal === 'Pansexual') {
+        totalScore += 1.5;
+      }
+
+      if (document.getElementById('bonus_banda')?.value === 'System Of a Down') {
+        totalScore += 1.0;
+      }
+
+      if (document.getElementById('bonus_anime')?.value === 'Inuyasha') {
+        totalScore += 1.0;
+      }
+
+      if (document.getElementById('bonus_signo')?.value === 'Peixes') totalScore += 0.5;
+      if (document.getElementById('bonus_ano')?.value === '2001') totalScore += 0.5;
+
+      if (document.getElementById('pref_rebeldes')?.value === 'Rebeldes') totalScore += 0.5;
+      if (document.getElementById('pref_kpop_funk')?.value === 'Kpop') totalScore += 0.5;
+      if (document.getElementById('pref_rock_kpop')?.value === 'Rock') totalScore += 0.5;
+      if (document.getElementById('pref_metal_eletronica')?.value === 'Metal') totalScore += 0.5;
+      if (document.getElementById('pref_metal_goth')?.value === 'Goth Metal') totalScore += 0.5;
+      if (document.getElementById('pref_gdragon_hyuna')?.value === 'G-Dragon') totalScore += 0.5;
+      if (document.getElementById('pref_tae_bob')?.value === 'Kim Taehyung') totalScore += 0.5;
+      if (document.getElementById('pref_ruby_rhea')?.value === 'Rhea') totalScore += 0.5;
+      if (document.getElementById('pref_amordoce_habbo')?.value === 'Amor Doce') totalScore += 0.5;
+      if (document.getElementById('pref_castiel_ken')?.value === 'Castiel') totalScore += 0.5;
+
+      // 3. CÁLCULO DAS PERGUNTAS ESPECÍFICAS DE CADA PERFIL
+      if (userProfile === 'rute') {
+        const r1 = (document.getElementById('q_rute_1')?.value || '').toLowerCase();
+        const r2 = (document.getElementById('q_rute_2')?.value || '').toLowerCase();
+        const r3 = (document.getElementById('q_rute_3')?.value || '').toLowerCase();
+        if (r1.includes('2009') || r1.includes('fundamental')) totalScore += 0.5;
+        if (r2.includes('amigas para sempre')) totalScore += 0.5;
+        if (r3.includes('historia') || r3.includes('história') || r3.includes('fanfic')) totalScore += 1.5;
+      } else if (userProfile === 'lucas') {
+        if (document.getElementById('twd_1')?.value === 'B') totalScore += 1.5;
+        if (document.getElementById('twd_2')?.value === 'A') totalScore += 1.5;
+        const twd3 = document.getElementById('twd_3')?.value;
+        if (twd3 === 'C') totalScore += 1.5;
+        else if (twd3 === 'B') totalScore += 0.75;
+        if (document.getElementById('twd_5')?.value === 'A') totalScore += 1.5;
+      } else if (userProfile === 'gabriel') {
+        if (document.getElementById('twd_1')?.value === 'B') totalScore += 1.5;
+        if (document.getElementById('twd_2')?.value === 'A') totalScore += 1.5;
+        const twd3 = document.getElementById('twd_3')?.value;
+        if (twd3 === 'C') totalScore += 1.5;
+        else if (twd3 === 'B') totalScore += 0.75;
+        if (document.getElementById('twd_5')?.value === 'A') totalScore += 1.5;
+
+        // Validação da Paixão do Gabriel (2,0 pts)
+        const gabAns = (document.getElementById('q_gabriel_paixao')?.value || '').toLowerCase();
+        if (gabAns.includes('gabriel') || gabAns.includes('eu') || gabAns.includes('eu mesmo') || gabAns.includes('seria eu')) {
+          totalScore += 2.0;
+        } else {
+          gabrielErrouPaixao = true;
+        }
+      } else if (userProfile === 'elza') {
+        if (document.getElementById('ff_1')?.value === 'B') totalScore += 1.0;
+        if (document.getElementById('ff_2')?.value === 'A') totalScore += 1.0;
+        if (document.getElementById('ff_3')?.value === 'C') totalScore += 1.0;
+        if (document.getElementById('ff_4')?.value === 'C') totalScore += 1.0;
+        if (document.getElementById('ff_5')?.value === 'C') totalScore += 1.0;
+
+        const elzaAns = (document.getElementById('q_elza_dormir')?.value || '').toLowerCase();
+        if (elzaAns.includes('historia') || elzaAns.includes('história') || elzaAns.includes('fanfic')) totalScore += 1.5;
+      } else if (userProfile === 'evellyn') {
+        if (document.getElementById('ff_1')?.value === 'B') totalScore += 1.0;
+        if (document.getElementById('ff_2')?.value === 'A') totalScore += 1.0;
+        if (document.getElementById('ff_3')?.value === 'C') totalScore += 1.0;
+        if (document.getElementById('ff_4')?.value === 'C') totalScore += 1.0;
+        if (document.getElementById('ff_5')?.value === 'C') totalScore += 1.0;
+
+        const evAno = (document.getElementById('q_evellyn_ano')?.value || '').toLowerCase();
+        const evGarota = (document.getElementById('q_evellyn_garota')?.value || '').toLowerCase();
+        const evGaroto = (document.getElementById('q_evellyn_garoto')?.value || '').toLowerCase();
+
+        if (evAno.includes('2014')) totalScore += 1.0;
+        if (evGarota.includes('monique') || evGarota.includes('moniqui')) totalScore += 1.0;
+        if (evGaroto.includes('jhonatan') || evGaroto.includes('jonata') || evGaroto.includes('jhonata') || evGaroto.includes('jonatan') || evGaroto.includes('jhoow')) totalScore += 1.0;
+      } else if (userProfile === 'owner') {
+        if (document.getElementById('own_1')?.value === 'B') totalScore += 1.0;
+        if (document.getElementById('own_2')?.value === 'A') totalScore += 1.0;
+        if (document.getElementById('own_3')?.value === 'C') totalScore += 1.0;
+        const own4 = document.getElementById('own_4')?.value;
+        if (own4 === 'A') totalScore += 1.0;
+        else if (own4 === 'D') totalScore += 0.5;
+      }
+
+      let rankTitle = "AMIGO EM OBSERVAÇÃO";
+      let rankDesc = "Você respondeu ao delírio coletivo! Suas respostas foram registradas.";
+
+      if (totalScore >= 12) {
+        rankTitle = "CÚMPLICE VIP SUPREMO";
+        rankDesc = "Você me conhece perfeitamente bem e faz parte do círculo mais íntimo!";
+      } else if (totalScore >= 6) {
+        rankTitle = "PARCEIRO DE LOUCURAS";
+        rankDesc = "Você conhece bastante dos meus gostos e da minha história!";
+      } else if (totalScore > 0) {
+        rankTitle = "CONHECIDO ATENTO";
+        rankDesc = "Você pegou alguns detalhes importantes do meu universo!";
+      }
+
+      if (userProfile === 'gabriel' && gabrielErrouPaixao) {
+        rankDesc += "<br/><br/><strong style='color:#ff6b81; font-size: 16px;'>Sério mesmo, Gabriel? Jura?! 😳💔</strong>";
+      }
+
+      const userName = document.getElementById('user_name').value.trim();
+      document.getElementById('hidden_score').value = totalScore;
+      document.getElementById('hidden_rank').value = rankTitle;
+
+      document.getElementById('rank-user-display').innerText = userName;
+      document.getElementById('rank-score-display').innerText = totalScore;
+      document.getElementById('rank-title-display').innerText = rankTitle;
+      document.getElementById('rank-description').innerHTML = rankDesc;
+
+      updateAndRenderLeaderboard(userName, totalScore, rankTitle);
+
+      const isVip = (userProfile === 'owner' || userProfile === 'lucas' || userProfile === 'gabriel');
+      document.getElementById('hidden_vip').value = isVip ? "Sim" : "Nao";
+
+      const vipArea = document.getElementById('vip-action-area');
+      if (isVip) {
+        vipArea.innerHTML = `<button type="button" class="btn" onclick="nextStep('trigger')">Avançar para Conteúdo VIP</button>`;
+      } else {
+        vipArea.innerHTML = `<button type="button" class="btn" onclick="nextStep('end')">Finalizar e Enviar Respostas</button>`;
+      }
+
+      nextStep('rank-screen');
+    }
+
+    function updateAndRenderLeaderboard(currentName, currentScore, currentRank) {
+      let leaderboard = JSON.parse(localStorage.getItem('quiz_leaderboard') || '[]');
+
+      if (userProfile !== 'owner') {
+        const existingIndex = leaderboard.findIndex(item => item.name.toLowerCase() === currentName.toLowerCase());
+        if (existingIndex >= 0) {
+          leaderboard[existingIndex] = { name: currentName, score: currentScore, rank: currentRank };
+        } else {
+          leaderboard.push({ name: currentName, score: currentScore, rank: currentRank });
+        }
+
+        leaderboard.sort((a, b) => b.score - a.score);
+        localStorage.setItem('quiz_leaderboard', JSON.stringify(leaderboard));
+      }
+
+      const tbody = document.getElementById('leaderboard-body');
+      tbody.innerHTML = '';
+
+      if (leaderboard.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color: var(--text-muted); padding: 12px;">Nenhum participante registrado ainda.</td></tr>`;
+        return;
+      }
+
+      leaderboard.forEach((item, index) => {
+        const isCurrent = item.name.toLowerCase() === currentName.toLowerCase();
+        const row = document.createElement('tr');
+        if (isCurrent) row.classList.add('current-user');
+
+        row.innerHTML = `
+          <td>#${index + 1}</td>
+          <td>${item.name} ${isCurrent ? '⭐' : ''}</td>
+          <td>${item.score} pts</td>
+          <td style="font-size: 11px;">${item.rank}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    function nextStep(stepId) {
+      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+      document.getElementById(`step-${stepId}`).classList.add('active');
+      window.scrollTo(0, 0);
+    }
+
+    function showStory(prosseguir) {
+      if (prosseguir) {
+        document.getElementById('hidden_story_read').value = "Sim";
+        nextStep('story');
+      } else {
+        document.getElementById('hidden_story_read').value = "Nao";
+        nextStep('end');
+      }
+    }
+  </script>
 
 </body>
 </html>
