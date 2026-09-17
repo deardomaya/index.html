@@ -720,7 +720,7 @@ Este relato em questão está mais para nos lembrar que por mais difícil seja a
 A vida continua.
 Por mais que tudo isso e muito mais tenha acontecido na minha história, eu não deixo me abater. 
 Apesar dos pesares, me fez ser quem sou.
-Hoje, me enxergo de uma forma diferente: ferida, mas não morta. Ainda respiro, e continuo a nadar. E espero você leitor que chegou até aqui saiba que você não é um caso perdido, você está tecendo suas linhas, formando sua própria trajetória. 
+Hoje, me enxergo de uma forma diferente: ferida, mas não morta. Ainda respiro, e continuo a nadar. E espero você leitor que chegou até aqui saiba que você não é um caso perdido, você está tecendo suas linhas, forming sua própria trajetória. 
 A cada tropeço, uma chance de se tornar sempre melhor.
 Levanta-se, enxerga-se, cuide-se, ama-se, pois você importa!
           </div>
@@ -757,8 +757,15 @@ Levanta-se, enxerga-se, cuide-se, ama-se, pois você importa!
       }
 
       if (n.includes('rute') || n.includes('sophia') || n.includes('soso') || n.includes('ruh')) return 'rute';
-      if (n.includes('lucas')) return 'lucas';
-      if (n.includes('gabriel')) return 'gabriel';
+
+      // Identificação para Lucas e seus apelidos
+      const lucasAliases = ['lucas', 'sombra albina', 'sombra', 'sombroso', 'albina'];
+      if (lucasAliases.some(alias => n.includes(alias))) return 'lucas';
+
+      // Identificação para Gabriel e seus apelidos
+      const gabrielAliases = ['gabriel', 'biel', 'bielzinho', 'bielzin'];
+      if (gabrielAliases.some(alias => n.includes(alias))) return 'gabriel';
+
       if (n.includes('elza') || n.includes('gleyce') || n.includes('elzinha')) return 'elza';
       if (n.includes('evellyn') || n.includes('lynn')) return 'evellyn';
       
@@ -1244,6 +1251,7 @@ Levanta-se, enxerga-se, cuide-se, ama-se, pois você importa!
 
       updateAndRenderLeaderboard(userName, totalScore, rankTitle);
 
+      // Apenas você (owner), Lucas e Gabriel têm acesso ao Relato VIP
       const isVip = (userProfile === 'owner' || userProfile === 'lucas' || userProfile === 'gabriel');
       document.getElementById('hidden_vip').value = isVip ? "Sim" : "Nao";
 
